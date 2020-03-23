@@ -13,6 +13,12 @@ namespace ShoppingCartLibrary
 
         public double TotalPrice { get; set; }
 
+        [Required]
         public virtual User User { get; set; }
+
+        public virtual Order Order { get; set; }
+
+        [Required]
+        public virtual ICollection<Item> Items { get; set; }
     }
 }
