@@ -8,5 +8,12 @@ namespace ShoppingCartLibrary
 {
     public class Item
     {
+        public string Id { get; set; }
+
+        public ItemStatus Status { get; set; }
+
+        public int Quantity { get; set; }
+
+        public double Price { get; set; }
     }
 }
