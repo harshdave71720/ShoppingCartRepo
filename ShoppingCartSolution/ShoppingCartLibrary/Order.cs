@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ShoppingCartLibrary
 {
@@ -15,7 +16,6 @@ namespace ShoppingCartLibrary
 
         public string ShippingAddress { get; set; }
 
-        [Required]
         public virtual User User { get; set; }
 
         [Required]
