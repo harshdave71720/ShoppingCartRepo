@@ -15,5 +15,9 @@ namespace ShoppingCartLibrary
         public int Quantity { get; set; }
 
         public double Price { get; set; }
+
+        public virtual ICollection<Cart> Carts { get; set; }
+
+        public virtual ICollection<Order> Orders { get; set; }
     }
 }
