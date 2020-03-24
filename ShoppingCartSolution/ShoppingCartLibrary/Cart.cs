@@ -29,6 +29,7 @@ namespace ShoppingCartLibrary
         }
 
         public int Add(Item item, int quantity) {
+            item.Quantity -= quantity;
             if (CartItems == null)
             {
                 CartItems = new List<CartItem> { new CartItem { Cart = this, Item = item, Quantity = quantity } };
@@ -45,20 +46,28 @@ namespace ShoppingCartLibrary
             return quantity;
         }
 
-        public int Remove(Item item) {
+        public int Remove(Item item, int quantity) {
             if (CartItems == null) {
-                return 0;
+                return -1;
             }
 
             CartItem temp = CartItems.SingleOrDefault(c => c.Cart.Id.Equals(item.Id));
             if (temp == null) {
-                return 0;
+                return -1;
             }
-            temp.Quantity -= 1;
+            item.Quantity += quantity;
+            temp.Quantity -= quantity;
             if (temp.Quantity == 0) {
                 CartItems.Remove(temp);
             }
             return temp.Quantity;
         }
+
+        public void EmptyCart() {
+            foreach (var cartItem in CartItems) {
+                Remove(cartItem.Item, cartItem.Quantity);
+            }
+        }
+
     }
 }
