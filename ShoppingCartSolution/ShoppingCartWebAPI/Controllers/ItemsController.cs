@@ -6,18 +6,23 @@ using System.Net.Http;
 using System.Web.Http;
 using ShoppingCartLibrary;
 using ShoppingCartWebAPI.Models;
+using ShoppingCartWebAPI.Repositories;
 
 namespace ShoppingCartWebAPI.Controllers
 {
     public class ItemsController : ApiController
     {
-        public IHttpActionResult Get() {
+        public IRepository<Item> DataSource;
 
-            //ShoppingDbContext context = new ShoppingDbContext("ShoppingCartDatabase");
-            //context.Items.Add(new Item { Id = "item1" , Price = 100, Quantity = 100});
-
-            //return Ok(context.Items);
-            return BadRequest();               
+        public ItemsController(IRepository<Item> repository) {
+            DataSource = repository;
         }
+
+        //public IHttpActionResult Add(Item item) {
+        //    Item temp = DataSource.Find(item);
+        //    if () { 
+            
+        //    }                                       
+        //}
     }
 }

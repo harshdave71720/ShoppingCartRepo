@@ -53,12 +53,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cart.cs" />
+    <Compile Include="CartItem.cs" />
     <Compile Include="CartStatus.cs" />
     <Compile Include="Item.cs" />
     <Compile Include="ItemStatus.cs" />
     <Compile Include="Order.cs" />
     <Compile Include="OrderStatus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ShoppingDbContext.cs" />
     <Compile Include="User.cs" />
   </ItemGroup>
   <ItemGroup>

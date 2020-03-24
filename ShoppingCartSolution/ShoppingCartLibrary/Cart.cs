@@ -16,9 +16,13 @@ namespace ShoppingCartLibrary
         [Required]
         public virtual User User { get; set; }
 
-        public virtual ICollection<Order> Orders { get; set; }
+        public virtual Order Order { get; set; }
 
         [Required]
-        public virtual ICollection<Item> Items { get; set; }
+        public virtual ICollection<CartItem> CartItems { get; set; }
+
+        public void PlaceOrder() { 
+        
+        }
     }
 }

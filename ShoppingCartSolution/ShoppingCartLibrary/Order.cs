@@ -21,7 +21,7 @@ namespace ShoppingCartLibrary
         [Required]
         public virtual Cart Cart { get; set; }
 
-        [Required]
-        public virtual ICollection<Item> Items { get; set; }
+        //[Required]
+        //public virtual ICollection<Item> Items { get; set; }
     }
 }

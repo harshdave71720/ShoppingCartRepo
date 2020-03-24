@@ -16,5 +16,13 @@ namespace ShoppingCartLibrary
         public ICollection<Cart> Carts { get; set; }
 
         public ICollection<Order> Orders { get; set; }
+
+        public void SubmitCart() {
+            if (Carts == null || !Carts.Any(c => c.Status == CartStatus.Active))
+                throw new InvalidOperationException("No Active Cart Found");
+
+        }
+
+
     }
 }
