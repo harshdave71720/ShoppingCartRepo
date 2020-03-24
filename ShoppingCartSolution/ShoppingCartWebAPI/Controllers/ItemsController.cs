@@ -5,7 +5,6 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using ShoppingCartLibrary;
-using ShoppingCartWebAPI.Models;
 using ShoppingCartWebAPI.Repositories;
 
 namespace ShoppingCartWebAPI.Controllers

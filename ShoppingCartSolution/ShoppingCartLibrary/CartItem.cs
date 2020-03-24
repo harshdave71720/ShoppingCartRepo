@@ -11,10 +11,10 @@ namespace ShoppingCartLibrary
     public class CartItem
     {
         [Key, Column(Order = 0)]
-        public string CartId { get; set; }
+        public Guid CartId { get; set; }
         
         [Key, Column(Order = 1)]
-        public string ItemId { get; set; }
+        public Guid ItemId { get; set; }
 
         [ForeignKey("CartId")]
         public virtual Cart Cart { get; set; }
