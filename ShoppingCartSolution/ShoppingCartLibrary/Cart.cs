@@ -16,17 +16,19 @@ namespace ShoppingCartLibrary
 
         public double TotalPrice { get; set; }
 
-        [Required]
         public virtual User User { get; set; }
 
         public virtual Order Order { get; set; }
 
-        [Required]
         public virtual ICollection<CartItem> CartItems { get; set; }
 
-        private Cart() {
-            this.CartItems = new List<CartItem>();
+        public Cart() { 
+
         }
+
+        //private Cart() {
+        //    this.CartItems = new List<CartItem>();
+        //}
 
         public Cart(User user) : this(){        
             this.User = user;
@@ -36,11 +38,11 @@ namespace ShoppingCartLibrary
             this.Status = status;
         }
 
-        public void PlaceOrder() { 
-        
-        }
 
         public int Add(Item item, int quantity) {
+            if (item.Quantity < quantity) {
+                return -1;
+            }
             item.Quantity -= quantity;
             if (CartItems == null)
             {
@@ -48,7 +50,7 @@ namespace ShoppingCartLibrary
                 return quantity;
             }
              
-            CartItem temp = CartItems.SingleOrDefault(c => c.Cart.Id.Equals(item.Id));
+            CartItem temp = CartItems.SingleOrDefault(c => c.Item.Id.Equals(item.Id));
             //temp = ((List<CartItem>)CartItems).Find(ci => ci.Item.Id.Equals())
             if (temp != null) {
                 temp.Quantity += quantity;
@@ -63,7 +65,7 @@ namespace ShoppingCartLibrary
                 return -1;
             }
 
-            CartItem temp = CartItems.SingleOrDefault(c => c.Cart.Id.Equals(item.Id));
+            CartItem temp = CartItems.SingleOrDefault(c => c.Item.Id.Equals(item.Id));
             if (temp == null) {
                 return -1;
             }
@@ -76,10 +78,27 @@ namespace ShoppingCartLibrary
         }
 
         public void EmptyCart() {
-            foreach (var cartItem in CartItems) {
-                Remove(cartItem.Item, cartItem.Quantity);
+            foreach (CartItem cartItem in CartItems) {
+                var item = cartItem.Item;
+                item.Quantity += cartItem.Quantity;
+                cartItem.Quantity = 0;
             }
+            //CartItems = null;
         }
 
+        public Order PlaceOrder() {
+            if (Status == CartStatus.Completed || this.Order != null) {
+                return null;
+            }
+            this.Status = CartStatus.Completed;
+            this.Order = new Order { 
+                Id = this.Id,
+                Cart = this, 
+                ShippingAddress = this.User.Address,
+                Status = OrderStatus.Recieved,
+                User = this.User 
+            };
+            return Order;
+        }
     }
 }

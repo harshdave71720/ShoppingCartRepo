@@ -51,7 +51,7 @@ namespace ShoppingCartWebAPI.Repositories
 
         public int SaveChanges()
         {
-            throw new NotImplementedException();
+            return Db.SaveChanges();
         }
     }
 }

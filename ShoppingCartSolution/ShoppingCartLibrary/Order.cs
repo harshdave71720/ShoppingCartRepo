@@ -10,7 +10,7 @@ namespace ShoppingCartLibrary
 {
     public class Order
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        
         public Guid Id { get; set; }
 
         public OrderStatus Status { get; set; }

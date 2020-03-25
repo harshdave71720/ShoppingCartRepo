@@ -20,13 +20,27 @@ namespace ShoppingCartWebAPI.Controllers
 
         [HttpGet]
         public IHttpActionResult GetAll() {
-            return Ok(DataSource.GetAll());
+            return Ok(DataSource.GetAll().ToList());
         }
 
         [HttpDelete]
         public IHttpActionResult Remove(Guid id) {
             return Ok(DataSource.Remove(new User { Id = id}));
         }
-       
+
+        [HttpGet]
+        public IHttpActionResult ConfirmCart(Guid userId) {
+            var user = DataSource.Find(new User { Id = userId});
+            if (user == null) {
+                return BadRequest("User not found");
+            }
+            if (user.GetActiveCart().CartItems == null) {
+                return BadRequest("No Active cart found");
+            }
+            var order = user.GetActiveCart().PlaceOrder();
+            DataSource.SaveChanges();
+            return Ok(order);
+
+        }
     }
 }

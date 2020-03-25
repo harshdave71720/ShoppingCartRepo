@@ -26,7 +26,7 @@ namespace ShoppingCartWebAPI
                 defaults: new { id = RouteParameter.Optional }
             );
 
-            GlobalConfiguration.Configuration.Formatters.JsonFormatter.SerializerSettings.ReferenceLoopHandling 
+            GlobalConfiguration.Configuration.Formatters.JsonFormatter.SerializerSettings.ReferenceLoopHandling
                 = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
         }
     }

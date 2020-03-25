@@ -57,7 +57,9 @@ namespace ShoppingCartWebAPI.Controllers
             var user = UserDataSource.Find(new User { Id = userId});
             var item = DataSource.Find(new Item { Id = itemId });
             Cart cart = user.GetActiveCart();
-            cart.Add(item, 1);
+            if (cart.Add(item, 1) < 0) {
+                return BadRequest("Item out of Stock");
+            }
             DataSource.SaveChanges();
             return Ok(item);
         }

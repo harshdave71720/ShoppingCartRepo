@@ -12,10 +12,29 @@ namespace ShoppingCartWebAPI.Controllers
     public class CartsController : ApiController
     {
         private IRepository<Cart> DataSource = new CartRepository(new ShoppingDbContext("ShoppingCartDatabase"));
-        
-        [HttpPost]
-        public IHttpActionResult Add(Cart cart) {
-            return Ok(DataSource.Add(cart));   
+       
+        [HttpGet]
+        public IHttpActionResult AllCarts() {
+            var some = DataSource.GetAll().ToList();
+            //return Ok(DataSource.GetAll().ToList());
+            return Ok(some);
         }
+
+        [HttpGet]
+        public IHttpActionResult EmptyCart(Guid id) {
+            Cart cart = DataSource.Find(new Cart { Id = id});
+            if (cart == null) {
+                return BadRequest("Cart not found");
+            }
+            if (cart.Status == CartStatus.Completed) {
+                return BadRequest("Cannot empty completed part");
+            }
+            cart.EmptyCart();
+            DataSource.Remove(cart);
+            DataSource.SaveChanges();
+            return Ok(cart);
+        }
+
+        
     }
 }

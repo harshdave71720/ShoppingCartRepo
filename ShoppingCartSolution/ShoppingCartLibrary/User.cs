@@ -15,9 +15,9 @@ namespace ShoppingCartLibrary
         public string  Email{ get; set; }
         public string Address { get; set; }
 
-        public ICollection<Cart> Carts { get; set; }
+        public virtual ICollection<Cart> Carts { get; set; }
 
-        public ICollection<Order> Orders { get; set; }
+        public virtual ICollection<Order> Orders { get; set; }
 
         public void SubmitCart() {
             if (Carts == null || !Carts.Any(c => c.Status == CartStatus.Active))
@@ -40,6 +40,8 @@ namespace ShoppingCartLibrary
             Carts.Add(cart);
             return cart;
         }
+
+        
 
     }
 }
