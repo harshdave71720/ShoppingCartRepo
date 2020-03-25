@@ -8,32 +8,48 @@ namespace ShoppingCartWebAPI.Repositories
 {
     public class CartRepository : IRepository<Cart>
     {
+        private ShoppingDbContext Db { get; set; }
+        public CartRepository(ShoppingDbContext context) {
+            Db = context;
+        }
+
         public Cart Add(Cart obj)
         {
-            throw new NotImplementedException();
+            var cart = Db.Carts.Add(obj);
+            Db.SaveChanges();
+            return cart;
         }
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            Db.Dispose();
         }
 
         public Cart Find(Cart Obj)
         {
-            throw new NotImplementedException();
+            return Db.Carts.Find(Obj.Id);
         }
 
         public IEnumerable<Cart> GetAll()
         {
-            throw new NotImplementedException();
+            return Db.Carts;
         }
 
         public Cart Remove(Cart obj)
         {
-            throw new NotImplementedException();
+            var cart = Db.Carts.Remove(obj);
+            Db.SaveChanges();
+            return cart;
         }
 
         public Cart Update(Cart obj)
+        {
+            Db.Entry(obj).State = System.Data.Entity.EntityState.Modified;
+            Db.SaveChanges();
+            return Db.Carts.Find(obj);
+        }
+
+        public int SaveChanges()
         {
             throw new NotImplementedException();
         }

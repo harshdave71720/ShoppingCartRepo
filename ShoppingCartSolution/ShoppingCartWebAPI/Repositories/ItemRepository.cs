@@ -8,7 +8,7 @@ namespace ShoppingCartWebAPI.Repositories
 {
     public class ItemRepository : IRepository<Item>
     {
-        public ShoppingDbContext Db { get; set; }
+        private ShoppingDbContext Db { get; set; }
         public ItemRepository(ShoppingDbContext context) {
             Db = context;
         }
@@ -47,6 +47,11 @@ namespace ShoppingCartWebAPI.Repositories
         public IEnumerable<Item> GetAll()
         {
             return Db.Items;
+        }
+
+        public int SaveChanges()
+        {
+            return Db.SaveChanges();
         }
     }
 }

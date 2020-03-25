@@ -11,11 +11,18 @@ namespace ShoppingCartWebAPI.Controllers
 {
     public class ItemsController : ApiController
     {
-        public IRepository<Item> DataSource = new ItemRepository(new ShoppingDbContext("ShoppingCartDatabase"));
 
-        //public ItemsController(IRepository<Item> repository) {
-        //    DataSource = repository;
-        //}
+        private IRepository<Item> DataSource;// = new ItemRepository(new ShoppingDbContext("ShoppingCartDatabase"));
+        private IRepository<User> UserDataSource;// = new UserRepository(new ShoppingDbContext("ShoppingCartDatabase"));
+
+        public ItemsController()
+        {
+            ShoppingDbContext context = new ShoppingDbContext("ShoppingCartDatabase");
+            DataSource = new ItemRepository(context);
+            UserDataSource = new UserRepository(context);
+            
+        }
+
         [HttpPost]
         public IHttpActionResult Add(Item item) {
             return Ok(DataSource.Add(item));
@@ -43,6 +50,16 @@ namespace ShoppingCartWebAPI.Controllers
         [HttpPut]
         public IHttpActionResult UpdateItem(Item item) {
             return Ok(DataSource.Update(item));
+        }
+
+        [HttpPost]
+        public IHttpActionResult AddToCart(Guid itemId, [FromBody] Guid userId) {
+            var user = UserDataSource.Find(new User { Id = userId});
+            var item = DataSource.Find(new Item { Id = itemId });
+            Cart cart = user.GetActiveCart();
+            cart.Add(item, 1);
+            DataSource.SaveChanges();
+            return Ok(item);
         }
     }
 }

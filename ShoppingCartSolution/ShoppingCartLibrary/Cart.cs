@@ -24,6 +24,18 @@ namespace ShoppingCartLibrary
         [Required]
         public virtual ICollection<CartItem> CartItems { get; set; }
 
+        private Cart() {
+            this.CartItems = new List<CartItem>();
+        }
+
+        public Cart(User user) : this(){        
+            this.User = user;
+        }
+
+        public Cart(User user, CartStatus status) : this(user){
+            this.Status = status;
+        }
+
         public void PlaceOrder() { 
         
         }

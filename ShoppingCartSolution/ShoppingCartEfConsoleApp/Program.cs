@@ -57,13 +57,13 @@ namespace ShoppingCartEfConsoleApp
                 context.SaveChanges();
                 for (int i = 0; i < 5; i++)
                 {
-                    context.Carts.Add(new Cart
-                    {
-                        TotalPrice = i,
-                        User = context.Users.First()
-                    ,
-                        CartItems = new List<CartItem>()
-                    });
+                    //context.Carts.Add(new Cart
+                    //{
+                    //    TotalPrice = i,
+                    //    User = context.Users.First()
+                    //,
+                    //    CartItems = new List<CartItem>()
+                    //});
                 }
                 
                 context.SaveChanges();
