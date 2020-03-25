@@ -11,17 +11,38 @@ namespace ShoppingCartWebAPI.Controllers
 {
     public class ItemsController : ApiController
     {
-        public IRepository<Item> DataSource;
+        public IRepository<Item> DataSource = new ItemRepository(new ShoppingDbContext("ShoppingCartDatabase"));
 
-        public ItemsController(IRepository<Item> repository) {
-            DataSource = repository;
+        //public ItemsController(IRepository<Item> repository) {
+        //    DataSource = repository;
+        //}
+        [HttpPost]
+        public IHttpActionResult Add(Item item) {
+            return Ok(DataSource.Add(item));
         }
 
-        //public IHttpActionResult Add(Item item) {
-        //    Item temp = DataSource.Find(item);
-        //    if () { 
-            
-        //    }                                       
-        //}
+        [HttpGet]
+        public IHttpActionResult GetItem([FromBody]Guid id)
+        {            
+            return Ok(DataSource.Find(new Item { Id = id }));
+        }
+
+        [HttpGet]
+        public IHttpActionResult AllItems() {
+            return Ok(DataSource.GetAll().ToList());
+        }
+
+        [HttpGet]
+        public IHttpActionResult AddExistingItem(Guid id, [FromBody] int quantity) {
+            var item = DataSource.Find(new Item { Id = id });
+            item.Quantity += quantity;
+            DataSource.Update(item);
+            return Ok(item);
+        }
+
+        [HttpPut]
+        public IHttpActionResult UpdateItem(Item item) {
+            return Ok(DataSource.Update(item));
+        }
     }
 }

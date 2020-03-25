@@ -14,5 +14,7 @@ namespace ShoppingCartWebAPI.Repositories
         T Update(T obj);
 
         T Find(T Obj);
+
+        IEnumerable<T> GetAll();          
     }
 }
