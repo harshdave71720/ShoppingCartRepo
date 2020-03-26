@@ -16,6 +16,21 @@ namespace ShoppingCartWebAPI.Controllers
         public IHttpActionResult GetAll(Guid userId) {
             return Ok(DataSource.Users.Find(userId).Orders);
         }
-        
+
+        [HttpGet]
+        public IHttpActionResult Modify(Guid id) {
+            Order order = DataSource.Orders.Find(id);
+            if (order == null) {
+                return NotFound();
+            }
+
+            if (order.Status == OrderStatus.Delivered) {
+                return BadRequest("Cannot modify a delivered order");
+            }
+            order.Status = OrderStatus.Changed;
+            order.Cart.Status = CartStatus.Active;
+            DataSource.SaveChanges();
+            return Ok(order.Cart);
+        }
     }
 }

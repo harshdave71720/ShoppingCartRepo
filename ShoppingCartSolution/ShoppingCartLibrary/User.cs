@@ -34,7 +34,7 @@ namespace ShoppingCartLibrary
                 return Carts.First();
             }
 
-            Cart cart = Carts.SingleOrDefault(c => c.Status == CartStatus.Active);
+            Cart cart = Carts.SingleOrDefault(c => c.Status == CartStatus.Active && c.Order == null);
             if (cart != null) {
                 return cart;
             }

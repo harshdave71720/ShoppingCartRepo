@@ -20,6 +20,7 @@ namespace ShoppingCartLibrary
         [JsonIgnore]
         public virtual User User { get; set; }
 
+        [JsonIgnore]
         public virtual Order Order { get; set; }
 
         public virtual ICollection<CartItem> CartItems { get; set; }
@@ -41,7 +42,7 @@ namespace ShoppingCartLibrary
         }
 
 
-        public int Add(Item item, int quantity) {
+        public int Add(Item item, int quantity) {            
             if (item.Quantity < quantity) {
                 return -1;
             }

@@ -11,14 +11,23 @@ namespace ShoppingCartWebAPI.Controllers
 {
     public class CartsController : ApiController
     {
-        private IRepository<Cart> DataSource = new CartRepository(new ShoppingDbContext("ShoppingCartDatabase"));
-       
+        private IRepository<Cart> DataSource;// = new CartRepository(new ShoppingDbContext("ShoppingCartDatabase"));
+        private IRepository<Item> ItemDataSource;// = new CartRepository(new ShoppingDbContext("ShoppingCartDatabase"));
+
+        public CartsController() {
+            ShoppingDbContext context = new ShoppingDbContext("ShoppingCartDatabase");
+            DataSource = new CartRepository(context);
+            ItemDataSource = new ItemRepository(context);
+        }
+
         [HttpGet]
         public IHttpActionResult AllCarts() {
             var some = DataSource.GetAll().ToList();
             //return Ok(DataSource.GetAll().ToList());
             return Ok(some);
         }
+
+        
 
         [HttpGet]
         public IHttpActionResult EmptyCart(Guid id) {
@@ -35,6 +44,69 @@ namespace ShoppingCartWebAPI.Controllers
             return Ok(cart);
         }
 
-        
+        [HttpGet]
+        public IHttpActionResult AddToModified(Guid itemId, [FromBody] Guid cartId) {
+            var cart = DataSource.Find(new Cart { Id = cartId});
+            var item = ItemDataSource.Find(new Item { Id = itemId});
+            if (cart == null || item == null) {
+                return NotFound();
+            }
+
+            if (cart.Status != CartStatus.Active) {
+                return BadRequest("Cart is not active for modification");
+            }
+            if (cart.Add(item, 1) < 0) {
+                return BadRequest("Item not available right now");
+            }
+            DataSource.SaveChanges();
+            return Ok(cart);
+            
+        }
+
+        [HttpGet]
+        public IHttpActionResult RemoveFromModified(Guid itemId,[FromBody]Guid cartId) {
+            var cart = DataSource.Find(new Cart { Id = cartId });
+            var item = ItemDataSource.Find(new Item { Id = itemId });
+            if (cart == null || item == null)
+            {
+                return NotFound();
+            }
+
+            if (cart.Status != CartStatus.Active)
+            {
+                return BadRequest("Cart is not active for modification");
+            }
+
+            if (cart.Remove(item, 1) < 0) {
+                return BadRequest("Item does not exist in cart");                    
+            }
+            DataSource.SaveChanges();
+            return Ok(cart);
+        }
+
+        [HttpGet]
+        public IHttpActionResult ConfirmModifiedCart(Guid cartId) {
+            Cart cart = DataSource.Find(new Cart { Id = cartId});
+
+            if (cart == null) {
+                return BadRequest("Cart not found");
+            }
+
+            if (cart.Status != CartStatus.Active) {
+                return BadRequest("Cannot confirm completed cart");
+            }
+
+            if (cart.CartItems == null || cart.CartItems.Count == 0) {
+                return BadRequest("Cannot confirm empty cart");
+            }
+            if (cart.Order == null) {
+                return BadRequest("no corresponding order found");
+            }
+
+            cart.Status = CartStatus.Completed;
+            cart.Order.Status = OrderStatus.Recieved;
+            DataSource.SaveChanges();
+            return Ok(cart.Order);
+        }
     }
 }

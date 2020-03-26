@@ -20,7 +20,7 @@ namespace ShoppingCartWebAPI.Controllers
             ShoppingDbContext context = new ShoppingDbContext("ShoppingCartDatabase");
             DataSource = new ItemRepository(context);
             UserDataSource = new UserRepository(context);
-            
+
         }
 
         [HttpPost]
@@ -30,7 +30,7 @@ namespace ShoppingCartWebAPI.Controllers
 
         [HttpGet]
         public IHttpActionResult GetItem([FromBody]Guid id)
-        {            
+        {
             return Ok(DataSource.Find(new Item { Id = id }));
         }
 
@@ -54,7 +54,7 @@ namespace ShoppingCartWebAPI.Controllers
 
         [HttpPost]
         public IHttpActionResult AddToCart(Guid itemId, [FromBody] Guid userId) {
-            var user = UserDataSource.Find(new User { Id = userId});
+            var user = UserDataSource.Find(new User { Id = userId });
             var item = DataSource.Find(new Item { Id = itemId });
             Cart cart = user.GetActiveCart();
             if (cart.Add(item, 1) < 0) {
@@ -63,5 +63,6 @@ namespace ShoppingCartWebAPI.Controllers
             DataSource.SaveChanges();
             return Ok(item);
         }
+
     }
 }
