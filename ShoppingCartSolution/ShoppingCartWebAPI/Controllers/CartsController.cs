@@ -11,18 +11,18 @@ namespace ShoppingCartWebAPI.Controllers
 {
     public class CartsController : ApiController
     {
-        private IRepository<Cart> DataSource;// = new CartRepository(new ShoppingDbContext("ShoppingCartDatabase"));
-        private IRepository<Item> ItemDataSource;// = new CartRepository(new ShoppingDbContext("ShoppingCartDatabase"));
-
+        //private IRepository<Cart> DataSource;// = new CartRepository(new ShoppingDbContext("ShoppingCartDatabase"));
+        //private IRepository<Item> ItemDataSource;// = new CartRepository(new ShoppingDbContext("ShoppingCartDatabase"));
+        private IDataSource DataSource = new ShoppingDataSource();
         public CartsController() {
-            ShoppingDbContext context = new ShoppingDbContext("ShoppingCartDatabase");
-            DataSource = new CartRepository(context);
-            ItemDataSource = new ItemRepository(context);
+            //ShoppingDbContext context = new ShoppingDbContext("ShoppingCartDatabase");
+            //DataSource = new CartRepository(context);
+            //ItemDataSource = new ItemRepository(context);
         }
 
         [HttpGet]
         public IHttpActionResult AllCarts() {
-            var some = DataSource.GetAll().ToList();
+            var some = DataSource.Carts.GetAll().ToList();
             //return Ok(DataSource.GetAll().ToList());
             return Ok(some);
         }
@@ -31,7 +31,7 @@ namespace ShoppingCartWebAPI.Controllers
 
         [HttpGet]
         public IHttpActionResult EmptyCart(Guid id) {
-            Cart cart = DataSource.Find(new Cart { Id = id});
+            Cart cart = DataSource.Carts.Find(new Cart { Id = id});
             if (cart == null) {
                 return BadRequest("Cart not found");
             }
@@ -39,15 +39,15 @@ namespace ShoppingCartWebAPI.Controllers
                 return BadRequest("Cannot empty completed part");
             }
             cart.EmptyCart();
-            DataSource.Remove(cart);
-            DataSource.SaveChanges();
+            DataSource.Carts.Remove(cart);
+            DataSource.Carts.SaveChanges();
             return Ok(cart);
         }
 
         [HttpGet]
         public IHttpActionResult AddToModified(Guid itemId, [FromBody] Guid cartId) {
-            var cart = DataSource.Find(new Cart { Id = cartId});
-            var item = ItemDataSource.Find(new Item { Id = itemId});
+            var cart = DataSource.Carts.Find(new Cart { Id = cartId});
+            var item = DataSource.Items.Find(new Item { Id = itemId});
             if (cart == null || item == null) {
                 return NotFound();
             }
@@ -65,8 +65,8 @@ namespace ShoppingCartWebAPI.Controllers
 
         [HttpGet]
         public IHttpActionResult RemoveFromModified(Guid itemId,[FromBody]Guid cartId) {
-            var cart = DataSource.Find(new Cart { Id = cartId });
-            var item = ItemDataSource.Find(new Item { Id = itemId });
+            var cart = DataSource.Carts.Find(new Cart { Id = cartId });
+            var item = DataSource.Items.Find(new Item { Id = itemId });
             if (cart == null || item == null)
             {
                 return NotFound();
@@ -86,7 +86,7 @@ namespace ShoppingCartWebAPI.Controllers
 
         [HttpGet]
         public IHttpActionResult ConfirmModifiedCart(Guid cartId) {
-            Cart cart = DataSource.Find(new Cart { Id = cartId});
+            Cart cart = DataSource.Carts.Find(new Cart { Id = cartId});
 
             if (cart == null) {
                 return BadRequest("Cart not found");

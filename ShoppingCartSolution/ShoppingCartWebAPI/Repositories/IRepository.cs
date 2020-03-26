@@ -5,7 +5,7 @@ using System.Web;
 
 namespace ShoppingCartWebAPI.Repositories
 {
-    public interface IRepository<T> : IDisposable
+    public interface IRepository<T>
     {
         T Add(T obj);
 

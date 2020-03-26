@@ -6,10 +6,10 @@ using ShoppingCartLibrary;
 
 namespace ShoppingCartWebAPI.Repositories
 {
-    public class CartRepository : IRepository<Cart>
+    public class CartRepository : EFRepositoryBase<Cart>,IRepository<Cart>
     {
         private ShoppingDbContext Db { get; set; }
-        public CartRepository(ShoppingDbContext context) {
+        public CartRepository(ShoppingDbContext context) : base(context){
             Db = context;
         }
 
@@ -49,9 +49,9 @@ namespace ShoppingCartWebAPI.Repositories
             return Db.Carts.Find(obj);
         }
 
-        public int SaveChanges()
-        {
-            return Db.SaveChanges();
-        }
+        //public int SaveChanges()
+        //{
+        //    return Db.SaveChanges();
+        //}
     }
 }

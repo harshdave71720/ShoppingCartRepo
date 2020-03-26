@@ -172,8 +172,12 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\CartRepository.cs" />
+    <Compile Include="Repositories\EFRepositoryBase.cs" />
+    <Compile Include="Repositories\IDataSource.cs" />
     <Compile Include="Repositories\IRepository.cs" />
     <Compile Include="Repositories\ItemRepository.cs" />
+    <Compile Include="Repositories\OrderRepository.cs" />
+    <Compile Include="Repositories\ShoppingDataSource.cs" />
     <Compile Include="Repositories\UserRepository.cs" />
   </ItemGroup>
   <ItemGroup>

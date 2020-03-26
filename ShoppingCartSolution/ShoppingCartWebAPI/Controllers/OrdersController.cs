@@ -5,21 +5,23 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using ShoppingCartLibrary;
+using ShoppingCartWebAPI.Repositories;
 
 namespace ShoppingCartWebAPI.Controllers
 {
     public class OrdersController : ApiController
     {
-        private ShoppingDbContext DataSource = new ShoppingDbContext("ShoppingCartDatabase");
+        //private ShoppingDbContext DataSource = new ShoppingDbContext("ShoppingCartDatabase");
+        private IDataSource DataSource = new ShoppingDataSource();
 
         [HttpGet]
         public IHttpActionResult GetAll(Guid userId) {
-            return Ok(DataSource.Users.Find(userId).Orders);
+            return Ok(DataSource.Users.Find(new User { Id = userId}).Orders);
         }
 
         [HttpGet]
         public IHttpActionResult Modify(Guid id) {
-            Order order = DataSource.Orders.Find(id);
+            Order order = DataSource.Orders.Find(new Order { Id = id});
             if (order == null) {
                 return NotFound();
             }

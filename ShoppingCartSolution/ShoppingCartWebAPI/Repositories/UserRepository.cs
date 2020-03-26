@@ -6,10 +6,10 @@ using ShoppingCartLibrary;
 
 namespace ShoppingCartWebAPI.Repositories
 {
-    public class UserRepository : IRepository<User>
+    public class UserRepository : EFRepositoryBase<User> , IRepository<User>
     {
         private ShoppingDbContext Db;
-        public UserRepository(ShoppingDbContext context) {
+        public UserRepository(ShoppingDbContext context) : base(context){
             Db = context;
         }
 
@@ -43,9 +43,9 @@ namespace ShoppingCartWebAPI.Repositories
             throw new NotImplementedException();
         }
 
-        public int SaveChanges() {
-            return Db.SaveChanges();
-        }
+        //public int SaveChanges() {
+        //    return Db.SaveChanges();
+        //}
 
         public void Dispose() {
             Db.Dispose();
