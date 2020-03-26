@@ -1,6 +1,7 @@
 ﻿
 namespace ShoppingCartLibrary
 {
+    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
@@ -16,6 +17,7 @@ namespace ShoppingCartLibrary
 
         public double TotalPrice { get; set; }
 
+        [JsonIgnore]
         public virtual User User { get; set; }
 
         public virtual Order Order { get; set; }
@@ -44,6 +46,7 @@ namespace ShoppingCartLibrary
                 return -1;
             }
             item.Quantity -= quantity;
+            TotalPrice += item.Price * quantity;
             if (CartItems == null)
             {
                 CartItems = new List<CartItem> { new CartItem { Cart = this, Item = item, Quantity = quantity } };
@@ -71,6 +74,7 @@ namespace ShoppingCartLibrary
             }
             item.Quantity += quantity;
             temp.Quantity -= quantity;
+            TotalPrice -= item.Price * quantity;
             if (temp.Quantity == 0) {
                 CartItems.Remove(temp);
             }
@@ -83,6 +87,7 @@ namespace ShoppingCartLibrary
                 item.Quantity += cartItem.Quantity;
                 cartItem.Quantity = 0;
             }
+            this.TotalPrice = 0;
             //CartItems = null;
         }
 

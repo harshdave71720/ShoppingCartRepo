@@ -13,7 +13,7 @@ namespace ShoppingCartWebAPI.Controllers
         private ShoppingDbContext DataSource = new ShoppingDbContext("ShoppingCartDatabase");
 
         [HttpGet]
-        private IHttpActionResult GetAll(Guid userId) {
+        public IHttpActionResult GetAll(Guid userId) {
             return Ok(DataSource.Users.Find(userId).Orders);
         }
         

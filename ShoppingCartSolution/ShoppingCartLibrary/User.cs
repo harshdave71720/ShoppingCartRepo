@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace ShoppingCartLibrary
 {
@@ -17,6 +18,7 @@ namespace ShoppingCartLibrary
 
         public virtual ICollection<Cart> Carts { get; set; }
 
+        [JsonIgnore]
         public virtual ICollection<Order> Orders { get; set; }
 
         public void SubmitCart() {
