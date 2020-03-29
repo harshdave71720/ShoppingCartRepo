@@ -43,5 +43,21 @@ namespace ShoppingCartWebAPI.Controllers
             return Ok(order);
 
         }
+
+        [HttpGet]
+        public IHttpActionResult CofirmOrderDelivery(Guid orderId) {
+            Order order = DataSource.Orders.Find(new Order { Id = orderId });
+            if (order == null)
+            {
+                return NotFound();
+            }
+            if (order.Status != OrderStatus.Dispatched || order.Status != OrderStatus.Recieved) {
+                return BadRequest("Cannot confirm delivery of active or cancelled order");
+            }
+
+            order.Status = OrderStatus.Delivered;
+            DataSource.SaveChanges();
+            return Ok();
+        }
     }
 }
