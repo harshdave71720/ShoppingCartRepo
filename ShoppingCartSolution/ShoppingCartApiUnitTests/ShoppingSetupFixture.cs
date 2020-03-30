@@ -21,12 +21,12 @@ namespace ShoppingCartApiUnitTests
         public static Mock<IRepository<Order>> OrderRepo;
         public static Mock<IRepository<User>> UserRepo;
 
-        private static List<User> Users = new List<User>();
-        private static List<Order> Orders = new List<Order>();
-        private static List<Cart> Carts = new List<Cart>();
-        private static List<Item> Items = new List<Item>();
+        public static List<User> Users = new List<User>();
+        public static List<Order> Orders = new List<Order>();
+        public static List<Cart> Carts = new List<Cart>();
+        public static List<Item> Items = new List<Item>();
 
-        [SetUp]
+        [OneTimeSetUp]
         public void Initialize() {
             DataSource = new Mock<IDataSource>();
             ItemRepo = new Mock<IRepository<Item>>();

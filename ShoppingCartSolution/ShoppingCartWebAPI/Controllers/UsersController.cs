@@ -12,8 +12,16 @@ namespace ShoppingCartWebAPI.Controllers
     public class UsersController : ApiController
     {
         //private IRepository<User> DataSource = new UserRepository(new ShoppingDbContext("ShoppingCartDatabase"));
-        private IDataSource DataSource = new ShoppingDataSource();
-        
+        private IDataSource DataSource;
+
+        public UsersController() {
+            DataSource = new ShoppingDataSource();
+        }
+
+        public UsersController(IDataSource dataSource) {
+            DataSource = dataSource;
+        }
+
         [HttpPost]
         public IHttpActionResult Add(User user) {
             return Ok(DataSource.Users.Add(user));
@@ -26,7 +34,11 @@ namespace ShoppingCartWebAPI.Controllers
 
         [HttpDelete]
         public IHttpActionResult Remove(Guid id) {
-            return Ok(DataSource.Users.Remove(new User { Id = id}));
+            User user = DataSource.Users.Remove(new User { Id = id });
+            if (user == null) {
+                return NotFound();
+            }
+            return Ok(user);
         }
 
         [HttpGet]
@@ -35,8 +47,9 @@ namespace ShoppingCartWebAPI.Controllers
             if (user == null) {
                 return BadRequest("User not found");
             }
+       
             if (user.GetActiveCart().CartItems == null) {
-                return BadRequest("No Active cart found");
+                return BadRequest("cannot confirm empty cart");
             }
             var order = user.GetActiveCart().PlaceOrder();
             DataSource.Users.SaveChanges();
