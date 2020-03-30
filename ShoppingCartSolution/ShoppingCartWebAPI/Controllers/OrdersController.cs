@@ -12,7 +12,14 @@ namespace ShoppingCartWebAPI.Controllers
     public class OrdersController : ApiController
     {
         //private ShoppingDbContext DataSource = new ShoppingDbContext("ShoppingCartDatabase");
-        private IDataSource DataSource = new ShoppingDataSource();
+        private IDataSource DataSource;// = new ShoppingDataSource();
+
+        public OrdersController() {
+            DataSource = new ShoppingDataSource();
+        }
+        public OrdersController(IDataSource dataSource) {
+            DataSource = dataSource;
+        }
 
         [HttpGet]
         public IHttpActionResult GetAll(Guid userId) {

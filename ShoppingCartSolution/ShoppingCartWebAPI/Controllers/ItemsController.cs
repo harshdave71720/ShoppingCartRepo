@@ -14,14 +14,15 @@ namespace ShoppingCartWebAPI.Controllers
 
         //private IRepository<Item> DataSource;// = new ItemRepository(new ShoppingDbContext("ShoppingCartDatabase"));
         //private IRepository<User> UserDataSource;// = new UserRepository(new ShoppingDbContext("ShoppingCartDatabase"));
-        private IDataSource DataSource = new ShoppingDataSource();
+        private IDataSource DataSource;
 
-        public ItemsController()
+        public ItemsController() {
+            DataSource = new ShoppingDataSource();
+        }
+
+        public ItemsController(IDataSource dataSource)
         {
-            //ShoppingDbContext context = new ShoppingDbContext("ShoppingCartDatabase");
-            //DataSource = new ItemRepository(context);
-            //UserDataSource = new UserRepository(context);
-
+            DataSource = dataSource;
         }
 
         [HttpPost]
@@ -32,7 +33,11 @@ namespace ShoppingCartWebAPI.Controllers
         [HttpGet]
         public IHttpActionResult GetItem([FromBody]Guid id)
         {
-            return Ok(DataSource.Items.Find(new Item { Id = id }));
+            var item = DataSource.Items.Find(new Item { Id = id });
+            if (item == null) {
+                return NotFound();
+            }
+            return Ok(item);
         }
 
         [HttpGet]
@@ -43,6 +48,9 @@ namespace ShoppingCartWebAPI.Controllers
         [HttpGet]
         public IHttpActionResult AddExistingItem(Guid id, [FromBody] int quantity) {
             var item = DataSource.Items.Find(new Item { Id = id });
+            if (item == null) {
+                return NotFound();
+            }
             item.Quantity += quantity;
             DataSource.Items.Update(item);
             return Ok(item);
@@ -50,13 +58,23 @@ namespace ShoppingCartWebAPI.Controllers
 
         [HttpPut]
         public IHttpActionResult UpdateItem(Item item) {
-            return Ok(DataSource.Items.Update(item));
+            var item1 = DataSource.Items.Update(item);
+            if (item1 == null) {
+                return NotFound();
+            }
+            return Ok(item1);
         }
 
         [HttpPost]
         public IHttpActionResult AddToCart(Guid itemId, [FromBody] Guid userId) {
             var user = DataSource.Users.Find(new User { Id = userId });
+            if (user == null) {
+                return NotFound();
+            }         
             var item = DataSource.Items.Find(new Item { Id = itemId });
+            if (item == null) {
+                return NotFound();
+            }
             Cart cart = user.GetActiveCart();
             if (cart.Add(item, 1) < 0) {
                 return BadRequest("Item out of Stock");

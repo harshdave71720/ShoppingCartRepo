@@ -13,11 +13,13 @@ namespace ShoppingCartWebAPI.Controllers
     {
         //private IRepository<Cart> DataSource;// = new CartRepository(new ShoppingDbContext("ShoppingCartDatabase"));
         //private IRepository<Item> ItemDataSource;// = new CartRepository(new ShoppingDbContext("ShoppingCartDatabase"));
-        private IDataSource DataSource = new ShoppingDataSource();
+        private IDataSource DataSource;// = new ShoppingDataSource();
         public CartsController() {
-            //ShoppingDbContext context = new ShoppingDbContext("ShoppingCartDatabase");
-            //DataSource = new CartRepository(context);
-            //ItemDataSource = new ItemRepository(context);
+            DataSource = new ShoppingDataSource();
+        }
+
+        public CartsController(IDataSource dataSource) {
+            DataSource = dataSource;
         }
 
         [HttpGet]
