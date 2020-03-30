@@ -58,7 +58,7 @@ namespace ShoppingCartWebAPI.Controllers
         }
 
         [HttpGet]
-        public IHttpActionResult CofirmOrderDelivery(Guid orderId) {
+        public IHttpActionResult ConfirmOrderDelivery(Guid orderId) {
             Order order = DataSource.Orders.Find(new Order { Id = orderId });
             if (order == null)
             {

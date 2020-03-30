@@ -71,5 +71,34 @@ namespace ShoppingCartApiUnitTests
             //assert
             Assert.IsInstanceOf<BadRequestErrorMessageResult>(result);
         }
+
+        [Test]
+        public void ConfirmOrderDelivery_NotExistingOrderFails() {
+            //arrange
+            var dataSource = ShoppingSetupFixture.DataSource.Object;
+            var controller = new UsersController(dataSource);
+
+            //act
+            var result = controller.ConfirmOrderDelivery(Guid.NewGuid());
+
+            //assert
+            Assert.IsInstanceOf<NotFoundResult>(result);
+        }
+
+        [TestCase(OrderStatus.Cancelled)]
+        [TestCase(OrderStatus.Changed)]
+        [TestCase(OrderStatus.Delivered)]
+        public void ConfirmOrderDelivery_CancelledChangeDeliveredOrderFails(OrderStatus status) {
+            var dataSource = ShoppingSetupFixture.DataSource.Object;
+            var controller = new UsersController(dataSource);
+            var order = new Order { Id = Guid.NewGuid(), Status = status };
+            ShoppingSetupFixture.Orders.Add(order);
+            
+            //act
+            var result = controller.ConfirmOrderDelivery(order.Id);
+            ShoppingSetupFixture.Orders.Remove(order);
+            //assert
+            Assert.IsInstanceOf<BadRequestErrorMessageResult>(result);
+        }
     }
 }
