@@ -32,6 +32,9 @@ namespace ShoppingCartWebAPI.Repositories
 
         public Item Remove(Item obj)
         {
+            if (Db.Items.Find(obj) == null) {
+                return null;
+            }
             var item = Db.Items.Remove(obj);
             Db.SaveChanges();
             return item;
@@ -39,6 +42,9 @@ namespace ShoppingCartWebAPI.Repositories
 
         public Item Update(Item obj)
         {
+            if (Db.Items.Find(obj) == null) {
+                return null;
+            }
             Db.Entry(obj).State = System.Data.Entity.EntityState.Modified;
             Db.SaveChanges();
             return Db.Items.Find(obj.Id);

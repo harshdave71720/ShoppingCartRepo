@@ -33,6 +33,9 @@ namespace ShoppingCartWebAPI.Repositories
         public User Remove(User obj)
         {
             var user = Db.Users.Find(obj.Id);
+            if (user == null) {
+                return null;
+            }
             Db.Users.Remove(user);
             Db.SaveChanges();
             return user;
