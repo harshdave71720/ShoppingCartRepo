@@ -42,6 +42,7 @@ namespace ShoppingCartApiUnitTests
 
             ItemRepo.Setup(ir => ir.Find(It.Is<Item>(item => !Items.Any(i => i.Id.Equals(item.Id)))))
                 .Returns<Item>(null);
+
             ItemRepo.Setup(ir => ir.Find(It.Is<Item>(item => Items.Any(i => i.Id.Equals(item.Id)))))
                 .Returns(new Item { Id = Guid.NewGuid() });
 
