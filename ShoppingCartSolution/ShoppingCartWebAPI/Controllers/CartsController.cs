@@ -35,8 +35,9 @@ namespace ShoppingCartWebAPI.Controllers
         public IHttpActionResult EmptyCart(Guid id) {
             Cart cart = DataSource.Carts.Find(new Cart { Id = id});
             if (cart == null) {
-                return BadRequest("Cart not found");
+                return NotFound();
             }
+            
             if (cart.Status == CartStatus.Completed) {
                 return BadRequest("Cannot empty completed part");
             }
