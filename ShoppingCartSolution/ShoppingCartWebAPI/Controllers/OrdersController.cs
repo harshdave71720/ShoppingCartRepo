@@ -36,6 +36,10 @@ namespace ShoppingCartWebAPI.Controllers
             if (order.Status == OrderStatus.Delivered) {
                 return BadRequest("Cannot modify a delivered order");
             }
+
+            if (order.Status == OrderStatus.Changed || order.Status == OrderStatus.Cancelled) {
+                return BadRequest("Cannot modify changed or cancelled order");
+            }
             order.Status = OrderStatus.Changed;
             order.Cart.Status = CartStatus.Active;
             DataSource.SaveChanges();
