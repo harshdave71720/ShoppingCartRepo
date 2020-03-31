@@ -73,6 +73,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CartsControllerTests.cs" />
     <Compile Include="ItemsControllerTests.cs" />
     <Compile Include="OrdersControllerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
