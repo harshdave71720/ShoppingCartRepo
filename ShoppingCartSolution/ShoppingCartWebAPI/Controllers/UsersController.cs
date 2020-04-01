@@ -72,5 +72,12 @@ namespace ShoppingCartWebAPI.Controllers
             DataSource.SaveChanges();
             return Ok();
         }
+
+        [HttpGet]
+        [Authorize]
+        public IHttpActionResult Test() {
+            var auth = User.Identity.IsAuthenticated;
+            return Ok();
+        }
     }
 }

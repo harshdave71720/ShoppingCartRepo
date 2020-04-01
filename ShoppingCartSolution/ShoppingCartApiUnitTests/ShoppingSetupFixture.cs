@@ -43,6 +43,8 @@ namespace ShoppingCartApiUnitTests
             ItemRepo.Setup(ir => ir.Find(It.Is<Item>(item => !Items.Any(i => i.Id.Equals(item.Id)))))
                 .Returns<Item>(null);
 
+            //ItemRepo.Setup(ir => Get(ir.Find(It.Is<Item>(item => Items.Any(i => i.Id.Equals(item.Id)))))).Returns(item);
+            
             ItemRepo.Setup(ir => ir.Find(It.Is<Item>(item => Items.Any(i => i.Id.Equals(item.Id)))))
                 .Returns(new Item { Id = Guid.NewGuid() });
 
@@ -111,6 +113,10 @@ namespace ShoppingCartApiUnitTests
             DataSource.Setup(d => d.Users).Returns(UserRepo.Object);
             DataSource.Setup(d => d.Carts).Returns(CartRepo.Object);
 
+        }
+
+        private object Get(object obj) {
+            return obj;
         }
     }
 }

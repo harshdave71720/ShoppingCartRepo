@@ -80,6 +80,18 @@ namespace ShoppingCartApiUnitTests
             Assert.IsInstanceOf<NotFoundResult>(result);
         }
 
+        [Test]
+        public void Trial() {
+            //arrange
+            var item = new Item { Id = Guid.NewGuid(), Name ="Myitemno1" };
+            var controller = new ItemsController(ShoppingSetupFixture.DataSource.Object);
+            ShoppingSetupFixture.Items.Add(item);
+            //act
+            var result = controller.GetItem(item.Id);
+            //assert
 
+            Assert.IsInstanceOf<NotFoundResult>(result);
+            
+        }
     }
 }
