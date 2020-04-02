@@ -11,20 +11,26 @@ namespace ShoppingCartLibrary
     public class Item
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [JsonProperty(Order = 2)]
         public Guid Id { get; set; }
 
+        [JsonProperty(Order = 1)]
         public string Name { get; set; }
 
-        public ItemStatus Status { get; set; }
-
+        //[JsonProperty(Order = 5)]
+        //public ItemStatus Status { get; set; }
+        
+        [JsonProperty(Order = 3)]
         public int Quantity { get; set; }
 
+        [JsonProperty(Order = 4)]
         public double Price { get; set; }
 
         [JsonIgnore]
         public virtual ICollection<CartItem> CartItems { get; set; }
 
-        //public virtual ICollection<Order> Orders { get; set; }
+        [JsonIgnore]
+        public virtual ICollection<OrderItem> OrderItems { get; set; }
 
         public int Add(int quantity) {
             Quantity += quantity;

@@ -61,10 +61,12 @@
     <Compile Include="Item.cs" />
     <Compile Include="ItemStatus.cs" />
     <Compile Include="Order.cs" />
+    <Compile Include="OrderItem.cs" />
     <Compile Include="OrderStatus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ShoppingDbContext.cs" />
     <Compile Include="ShoppingDbContextFactory.cs" />
+    <Compile Include="ShoppingDbInitializer.cs" />
     <Compile Include="User.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -11,11 +11,19 @@ namespace ShoppingCartLibrary
     public class User
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [JsonProperty(Order = 1)]
         public Guid Id { get; set; }
+        
+        [JsonProperty(Order = 2)]
         public string Name { get; set; }
+
+        [JsonProperty(Order = 3)]
         public string  Email{ get; set; }
+
+        [JsonProperty(Order = 4)]
         public string Address { get; set; }
 
+        [JsonIgnore]
         public virtual ICollection<Cart> Carts { get; set; }
 
         [JsonIgnore]

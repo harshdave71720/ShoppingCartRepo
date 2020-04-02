@@ -1,31 +1,33 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using Newtonsoft.Json;
 
 namespace ShoppingCartLibrary
 {
-    public class CartItem
+    public class OrderItem
     {
         [Key, Column(Order = 0)]
         [JsonIgnore]
-        public Guid CartId { get; set; }
-        
+        public Guid OrderId { get; set; }
+
         [Key, Column(Order = 1)]
         public Guid ItemId { get; set; }
 
         [JsonIgnore]
-        [ForeignKey("CartId")]
-        public virtual Cart Cart { get; set; }
+        [ForeignKey("OrderId")]
+        public virtual Order Order { get; set; }
 
         [JsonIgnore]
         [ForeignKey("ItemId")]
         public virtual Item Item { get; set; }
 
         public int Quantity { get; set; }
+
+        public ItemStatus Status { get; set; }
     }
 }

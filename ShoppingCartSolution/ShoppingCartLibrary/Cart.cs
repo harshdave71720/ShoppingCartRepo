@@ -11,10 +11,13 @@ namespace ShoppingCartLibrary
     public class Cart
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [JsonProperty(Order = 1)]
         public Guid Id { get; set; }
 
+        [JsonProperty(Order = 3)]
         public CartStatus Status { get; set; }
 
+        [JsonProperty(Order = 2)]
         public double TotalPrice { get; set; }
 
         [JsonIgnore]
@@ -23,6 +26,7 @@ namespace ShoppingCartLibrary
         [JsonIgnore]
         public virtual Order Order { get; set; }
 
+        [JsonProperty(Order = 4)]
         public virtual ICollection<CartItem> CartItems { get; set; }
 
         public Cart() { 
