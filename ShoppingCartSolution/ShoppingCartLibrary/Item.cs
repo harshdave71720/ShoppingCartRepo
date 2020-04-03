@@ -38,8 +38,13 @@ namespace ShoppingCartLibrary
         }
 
         public int Remove(int quantity) {
+            //if (Quantity < quantity) {
+            //    throw new InvalidOperationException("Items in available : " + Quantity + "Items to be removed : " + quantity);
+            //}
             if (Quantity < quantity) {
-                throw new InvalidOperationException("Items in available : " + Quantity + "Items to be removed : " + quantity);
+                var temp = Quantity;
+                Quantity = 0;
+                return temp;
             }
             Quantity -= quantity;
             return Quantity;

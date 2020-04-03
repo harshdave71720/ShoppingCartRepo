@@ -29,11 +29,11 @@ namespace ShoppingCartLibrary
         [JsonIgnore]
         public virtual ICollection<Order> Orders { get; set; }
 
-        public void SubmitCart() {
-            if (Carts == null || !Carts.Any(c => c.Status == CartStatus.Active))
-                throw new InvalidOperationException("No Active Cart Found");
+        //public void SubmitCart() {
+        //    if (Carts == null || !Carts.Any(c => c.Status == CartStatus.Active))
+        //        throw new InvalidOperationException("No Active Cart Found");
 
-        }     
+        //}     
 
         public Cart GetActiveCart() {
             if (Carts == null)

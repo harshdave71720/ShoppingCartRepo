@@ -51,6 +51,9 @@ namespace ShoppingCartLibrary
             //    return -1;
             //}
             //item.Quantity -= quantity;
+            if (quantity <= 0) {
+                return 0;
+            }
             TotalPrice += item.Price * quantity;
             if (CartItems == null)
             {
@@ -77,12 +80,18 @@ namespace ShoppingCartLibrary
             if (temp == null) {
                 return -1;
             }
+            if (quantity >= temp.Quantity) {             
+                CartItems.Remove(temp);
+                TotalPrice -= item.Price * temp.Quantity;
+                return temp.Quantity;
+            }
             //item.Quantity += quantity;
             temp.Quantity -= quantity;
             TotalPrice -= item.Price * quantity;
-            if (temp.Quantity >= 0) {
-                CartItems.Remove(temp);
-            }
+            //if (temp.Quantity <= 0) {
+            //    CartItems.Remove(temp);
+            //    return 
+            //}
             return quantity;
         }
 
