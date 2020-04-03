@@ -29,5 +29,15 @@ namespace ShoppingCartLibrary
         public int Quantity { get; set; }
 
         public ItemStatus Status { get; set; }
+
+        public OrderItem(Order order, CartItem cartItem) {
+            Item = cartItem.Item;
+            //ItemId = cartItem.Item.Id;
+            Order = order;
+            //OrderId = order.Id;
+            Quantity = cartItem.Quantity;
+            //to be added status
+
+        }
     }
 }

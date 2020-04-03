@@ -59,6 +59,7 @@
     <Compile Include="CartItem.cs" />
     <Compile Include="CartStatus.cs" />
     <Compile Include="Item.cs" />
+    <Compile Include="ItemErrorMessage.cs" />
     <Compile Include="ItemStatus.cs" />
     <Compile Include="Order.cs" />
     <Compile Include="OrderItem.cs" />

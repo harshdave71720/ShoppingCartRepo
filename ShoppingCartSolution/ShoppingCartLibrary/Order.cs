@@ -30,8 +30,22 @@ namespace ShoppingCartLibrary
         [JsonProperty(Order = 4)]
         public double TotalPrice { get; set; }
 
-
+        public virtual ICollection<OrderItem> OrderItems { get; set; }
         //[Required]
-        //public virtual ICollection<Item> Items { get; set; }
+        //public virtual ICollection<Item> Items { get; set; }       
+
+        public Order(Cart cart) {
+            Id = cart.Id;
+            User = cart.User;
+            ShippingAddress = User.Address;
+            Cart = cart;
+            this.OrderItems = new List<OrderItem>();
+            foreach (CartItem cartItem in cart.CartItems) {
+                OrderItems.Add(new OrderItem(this, cartItem));
+            }
+            TotalPrice = cart.TotalPrice;
+            
+        }
+        public Order() { }
     }
 }
