@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ShoppingCartLibrary;
 
-namespace ShoppingCartLibrary
+namespace ShoppingCartDataLayer.Repositories
 {
-    public enum OrderStatus
+    public interface IItemRepository : IRepository<Item>
     {
-        Active, Delivering, Delivered
     }
 }

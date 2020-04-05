@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ShoppingCartLibrary;
 
-namespace ShoppingCartLibrary
+namespace ShoppingCartEFDataLayer.DbContexts
 {
     public class ShoppingDbContextFactory
     {

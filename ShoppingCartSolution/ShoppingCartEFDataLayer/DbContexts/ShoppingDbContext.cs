@@ -4,13 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.Entity;
+using ShoppingCartLibrary;
 
-namespace ShoppingCartLibrary
+namespace ShoppingCartEFDataLayer.DbContexts
 {
     public class ShoppingDbContext : DbContext
     {
         public ShoppingDbContext()
         {
+            Database.SetInitializer<ShoppingDbContext>(new ShoppingDbInitializer());
         }
 
         public ShoppingDbContext(string connectionString) : base(connectionString)

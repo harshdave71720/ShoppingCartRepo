@@ -8,6 +8,6 @@ namespace ShoppingCartLibrary
 {
     public enum ItemStatus
     {
-        OutOfStock, InStock
+        PROCESSING, DISPATCHED, DELIVERED
     }
 }

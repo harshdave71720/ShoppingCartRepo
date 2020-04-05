@@ -5,11 +5,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{3DF557A4-288D-4290-9FCD-323163BF0809}</ProjectGuid>
+    <ProjectGuid>{BC57FED1-C28F-48B4-AE1C-20F551F83904}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ShoppingCartLibrary</RootNamespace>
-    <AssemblyName>ShoppingCartLibrary</AssemblyName>
+    <RootNamespace>ShoppingCartEFDataLayer</RootNamespace>
+    <AssemblyName>ShoppingCartEFDataLayer</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -40,10 +40,6 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.4.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Build.Framework" />
-    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -55,17 +51,27 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Cart.cs" />
-    <Compile Include="CartItem.cs" />
-    <Compile Include="CartStatus.cs" />
-    <Compile Include="Item.cs" />
-    <Compile Include="ItemErrorMessage.cs" />
-    <Compile Include="ItemStatus.cs" />
-    <Compile Include="Order.cs" />
-    <Compile Include="OrderItem.cs" />
-    <Compile Include="OrderStatus.cs" />
+    <Compile Include="DbContexts\ShoppingDbContext.cs" />
+    <Compile Include="DbContexts\ShoppingDbContextFactory.cs" />
+    <Compile Include="DbContexts\ShoppingDbInitializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="User.cs" />
+    <Compile Include="Repositories\CartRepository.cs" />
+    <Compile Include="Repositories\EFRepositoryBase.cs" />
+    <Compile Include="Repositories\ItemRepository.cs" />
+    <Compile Include="Repositories\OrderRepository.cs" />
+    <Compile Include="Repositories\ShoppingDataSource.cs" />
+    <Compile Include="Repositories\UserRepository.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\ShoppingCartDataLayer\ShoppingCartDataLayer.csproj">
+      <Project>{955aeb81-29f4-439f-b9b9-c072bbf5576a}</Project>
+      <Name>ShoppingCartDataLayer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ShoppingCartLibrary\ShoppingCartLibrary.csproj">
+      <Project>{3df557a4-288d-4290-9fcd-323163bf0809}</Project>
+      <Name>ShoppingCartLibrary</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
