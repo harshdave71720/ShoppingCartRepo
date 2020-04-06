@@ -10,26 +10,27 @@ namespace ShoppingCartSystem
 {
     public class ShoppingSystemManager
     {
-        private IDataSource DataSource;
+        protected IDataSource DataSource;
 
         public ShoppingSystemManager(IDataSource dataSource) {
             DataSource = dataSource;
         }
 
-        public User AddUser(User user) {
-            return DataSource.Users.Add(user);
-        }
 
-        public User GetUser(Guid id) {
-            return DataSource.Users.Find(new User { Id = id});
-        }
+        //user manager methods 
 
-        public User UpdateUser(User user) {
-            return DataSource.Users.Update(user);
-        }
+        
 
-        public User RemoveUser(Guid id) {
-            return DataSource.Users.Remove(new User { Id = id});
-        }
+        //items manager methods
+
+        
+
+        //cart manager method
+
+        
+
+        //order manager methods
+        
+
     }
 }

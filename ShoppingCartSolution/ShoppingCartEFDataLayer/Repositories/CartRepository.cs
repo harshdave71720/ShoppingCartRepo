@@ -69,6 +69,12 @@ namespace ShoppingCartEFDataLayer.Repositories
             return cart.CartItems;
         }
 
+        public Cart GetUserCart(Guid userId, Guid cartId) {
+            Cart cart = Context.Carts.SingleOrDefault(c => c.Id.Equals(cartId) && c.User.Id.Equals(userId));
+
+            return cart;
+        }
+
         //public int SaveChanges()
         //{
         //    return Db.SaveChanges();

@@ -13,13 +13,13 @@ namespace ShoppingSystemWebAPI.Controllers
 {
     public class UserController : ApiController
     {
-        private ShoppingSystemManager Manager; 
+        private UserManager Manager; 
             
         public UserController() {
-            Manager = new ShoppingSystemManager(new ShoppingDataSource());
+            Manager = new UserManager(new ShoppingDataSource());
         }
 
-        public UserController(ShoppingSystemManager manager) {
+        public UserController(UserManager manager) {
             Manager = manager;
         }
 
@@ -54,7 +54,7 @@ namespace ShoppingSystemWebAPI.Controllers
                 return NotFound();
             }
 
-            return Ok(user);
+            return Ok(new UserModel(user));
         }
     }
 }

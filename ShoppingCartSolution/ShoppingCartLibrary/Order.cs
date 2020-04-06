@@ -14,8 +14,25 @@ namespace ShoppingCartLibrary
         [JsonProperty(Order = 1)]
         public Guid Id { get; set; }
 
+        private OrderStatus _status;
+
         [JsonProperty(Order = 2)]
         public OrderStatus Status { get; set; }
+        //public OrderStatus Status { get {
+        //        if (_status == OrderStatus.Modifying) {
+        //            return _status;
+        //        }
+        //        int count = 0;
+        //        foreach (var item in OrderItems) {
+        //            if (item.Status == ItemStatus.) { 
+
+        //            }
+        //        }
+        //    }
+        //    set {
+        //        _status = value;
+        //    }
+        //}
 
         [JsonProperty(Order = 3)]
         public string ShippingAddress { get; set; }
@@ -40,11 +57,48 @@ namespace ShoppingCartLibrary
             ShippingAddress = User.Address;
             Cart = cart;
             this.OrderItems = new List<OrderItem>();
-            foreach (CartItem cartItem in cart.CartItems) {
-                OrderItems.Add(new OrderItem(this, cartItem));
-            }
+            AddItemsFromCart(cart);
             TotalPrice = cart.TotalPrice;
             
+        }
+
+        private void ReleaseItems() {
+
+            while (OrderItems.Count > 0) {
+                var orderItem = OrderItems.FirstOrDefault();
+                orderItem.Item.Quantity += orderItem.Quantity;
+                OrderItems.Remove(orderItem);
+            }
+            OrderItems = null;
+        }
+
+        private void AddItemsFromCart(Cart cart) {
+            if (OrderItems == null) {
+                OrderItems = new List<OrderItem>();
+            }
+            foreach (var cartItem in cart.CartItems) {
+                OrderItems.Add(new OrderItem(this, cartItem));
+            }
+        }
+
+        public void Update(Cart cart) {
+            ReleaseItems();
+            AddItemsFromCart(cart);
+        }
+
+        public void UpdateStatus(OrderStatus status) {
+            Status = status;
+        }
+
+        public void Modify() {
+            if (Status == OrderStatus.Dispatched || Status == OrderStatus.Delivered) {
+                throw new InvalidOperationException("Delivered or dispatched order cannot be modified");
+            }
+            if (Status == OrderStatus.Modifying) {
+                throw new InvalidOperationException("Order already under modification ");
+            }
+            Status = OrderStatus.Modifying;
+            Cart.Status = CartStatus.Active;
         }
         public Order() { }
 

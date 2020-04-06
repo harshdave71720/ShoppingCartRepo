@@ -102,8 +102,9 @@ namespace ShoppingCartLibrary
         }
 
         public Order PlaceOrder() {
-            if (Status == CartStatus.Completed || this.Order != null) {
-                throw new InvalidOperationException("Cart is already completed or corresponding order already exists");
+            if (Status == CartStatus.Completed)
+            {
+                throw new InvalidOperationException("Cart is already completed");
             }
             if (CartItems == null || CartItems.Count == 0) {
                 throw new InvalidOperationException("Cannot place empty order {The cart is empty}");
@@ -116,7 +117,16 @@ namespace ShoppingCartLibrary
                 throw ex;
             }
             this.Status = CartStatus.Completed;
-            return new Order(this);
+
+            if (this.Order != null)
+            {
+                this.Order.Update(this);
+            }
+            else {
+                this.Order = new Order(this);
+            }
+            this.Order.UpdateStatus(OrderStatus.Active);
+            return this.Order;
         }
 
         public void Validate() {

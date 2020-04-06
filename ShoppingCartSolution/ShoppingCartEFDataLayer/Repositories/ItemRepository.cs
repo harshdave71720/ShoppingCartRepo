@@ -10,51 +10,51 @@ namespace ShoppingCartEFDataLayer.Repositories
 {
     public class ItemRepository : EFRepositoryBase<Item>,IItemRepository
     {
-        private ShoppingDbContext Db { get; set; }
         public ItemRepository(ShoppingDbContext context) : base(context){
-            Db = context;
+            
         }
 
         public Item Add(Item obj)
         {
-            var item = Db.Items.Add(obj);
-            Db.SaveChanges();
+            var item = Context.Items.Add(obj);
+            Context.SaveChanges();
             return item;
         }
 
         public void Dispose()
         {
-            Db.Dispose();            
+            Context.Dispose();            
         }
 
         public Item Find(Item Obj)
         {
-            return Db.Items.Find(Obj.Id);
+            return Context.Items.Find(Obj.Id);
         }
 
         public Item Remove(Item obj)
         {
-            if (Db.Items.Find(obj) == null) {
+            var item = Find(obj);
+            if (item == null) {
                 return null;
             }
-            var item = Db.Items.Remove(obj);
-            Db.SaveChanges();
-            return item;
+            var item2 = Context.Items.Remove(item);
+            Context.SaveChanges();
+            return item2;
         }
 
         public Item Update(Item obj)
         {
-            if (Db.Items.Find(obj) == null) {
+            if (Context.Items.Find(obj) == null) {
                 return null;
             }
-            Db.Entry(obj).State = System.Data.Entity.EntityState.Modified;
-            Db.SaveChanges();
-            return Db.Items.Find(obj.Id);
+            Context.Entry(obj).State = System.Data.Entity.EntityState.Modified;
+            Context.SaveChanges();
+            return Context.Items.Find(obj.Id);
         }
 
         public IEnumerable<Item> GetAll()
         {
-            return Db.Items;
+            return Context.Items;
         }
 
         //public int SaveChanges()

@@ -39,7 +39,11 @@ namespace ShoppingCartEFDataLayer.Repositories
             return order.OrderItems;
         }
 
-        
+        public Order GetUserOrder(Guid userId, Guid orderId)
+        {
+            var order = Context.Orders.SingleOrDefault(o => o.Id.Equals(orderId) && o.User.Id.Equals(userId));
+            return order;         
+        }
 
         public IEnumerable<Order> GetUserOrders(Guid userId)
         {
