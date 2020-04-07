@@ -89,10 +89,6 @@
       <Project>{3df557a4-288d-4290-9fcd-323163bf0809}</Project>
       <Name>ShoppingCartLibrary</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ShoppingCartWebAPI\ShoppingCartWebAPI.csproj">
-      <Project>{a43794c1-ce86-4026-bb3e-2d6fd93dedf6}</Project>
-      <Name>ShoppingCartWebAPI</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

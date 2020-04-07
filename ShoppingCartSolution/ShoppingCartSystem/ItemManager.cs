@@ -50,5 +50,10 @@ namespace ShoppingCartSystem
             DataSource.SaveChanges();
             return new CartItem() { Item = item, ItemId = item.Id, Quantity = Qunatity };
         }
+
+        public List<Item> GetItems() {
+            return DataSource.Items.GetAll().ToList();
+        }
+
     }
 }

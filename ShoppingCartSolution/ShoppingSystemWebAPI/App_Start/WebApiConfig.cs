@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+using Newtonsoft.Json.Converters;
+using ShoppingSystemWebAPI.Filters;
 
 namespace ShoppingSystemWebAPI
 {
@@ -20,11 +22,17 @@ namespace ShoppingSystemWebAPI
                 defaults: new { id = RouteParameter.Optional }
             );
 
-            config.Routes.MapHttpRoute(
-                name: "DefaultApi",
-                routeTemplate: "api/{controller}/{id}",
-                defaults: new { id = RouteParameter.Optional }
-            );
+            //config.Routes.MapHttpRoute(
+            //    name: "DefaultApi",
+            //    routeTemplate: "api/{controller}/{id}",
+            //    defaults: new { id = RouteParameter.Optional }
+            //);
+
+            config.Filters.Add(new ApiExceptionHandlerAttribute());
+
+            config.Filters.Add(new ValidateModelStateAttribute());
+
+            config.Formatters.JsonFormatter.SerializerSettings.Converters.Add(new StringEnumConverter());
         }
     }
 }

@@ -19,7 +19,11 @@ namespace ShoppingCartSystem
 
         public List<Order> GetOrders(Guid userId)
         {
-            return DataSource.Orders.GetUserOrders(userId).ToList();
+            var orders = DataSource.Orders.GetUserOrders(userId);
+            if (orders ==  null) {
+                return new List<Order>();
+            }
+            return orders.ToList();
         }
 
         public bool ModifyOrder(Guid userId, Guid orderId)

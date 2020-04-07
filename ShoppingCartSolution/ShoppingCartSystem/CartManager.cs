@@ -25,19 +25,7 @@ namespace ShoppingCartSystem
             return carts;
         }
 
-        public Order ConfirmCartToOrder(Guid userId, Guid cartId)
-        {
-            Cart cart = DataSource.Carts.Find(new Cart { Id = cartId });
-
-            if (cart == null || !cart.User.Id.Equals(userId))
-            {
-                return null;
-            }
-            var order = cart.PlaceOrder();
-            DataSource.SaveChanges();
-            return order;
-
-        }
+        
 
         public CartItem AddItemToUserCart(Guid userId, Guid cartId, Guid itemId, int quantity)
         {
@@ -72,7 +60,23 @@ namespace ShoppingCartSystem
             {
                 return null;
             }
-            return cart.PlaceOrder();
+            var order = cart.PlaceOrder();
+            DataSource.SaveChanges();
+            return order;
+        }
+
+        public Order ConfirmCartToOrder(Guid userId, Guid cartId)
+        {
+            Cart cart = DataSource.Carts.Find(new Cart { Id = cartId });
+
+            if (cart == null || !cart.User.Id.Equals(userId))
+            {
+                return null;
+            }
+            var order = cart.PlaceOrder();
+            DataSource.SaveChanges();
+            return order;
+
         }
     }
 }

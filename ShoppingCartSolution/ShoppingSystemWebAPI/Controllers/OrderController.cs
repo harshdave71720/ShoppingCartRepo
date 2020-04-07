@@ -41,7 +41,7 @@ namespace ShoppingSystemWebAPI.Controllers
             return Ok(orders);
         }
 
-        [HttpGet]
+        [HttpPut]
         public IHttpActionResult Modify(UserOrderModel model) {
             return Ok(Manager.ModifyOrder(model.UserId, model.OrderId));
         }

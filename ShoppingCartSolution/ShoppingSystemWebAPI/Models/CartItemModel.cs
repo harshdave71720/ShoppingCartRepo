@@ -1,22 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
-using System.ComponentModel.DataAnnotations;
 
 namespace ShoppingSystemWebAPI.Models
 {
-    public class AddItemModel
+    public class CartItemModel
     {
         [Required]
-        public Guid ItemId { get; set; }
-        
+        public Guid CartId { get; set; }
+
         [Required]
-        public Guid UserId { get; set; }
+        public Guid ItemId { get; set; }
 
         [Required]
         public int Quantity { get; set; }
-
-        public AddItemModel() { }
     }
 }

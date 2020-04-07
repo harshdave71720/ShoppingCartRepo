@@ -39,5 +39,7 @@ namespace ShoppingCartLibrary
             //to be added status
 
         }
+
+        public OrderItem() { }
     }
 }

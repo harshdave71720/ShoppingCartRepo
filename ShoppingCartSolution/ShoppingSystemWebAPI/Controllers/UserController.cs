@@ -8,6 +8,7 @@ using ShoppingCartSystem;
 using ShoppingCartEFDataLayer.Repositories;
 using ShoppingSystemWebAPI.Models;
 using ShoppingCartLibrary;
+using ShoppingSystemWebAPI.Filters;
 
 namespace ShoppingSystemWebAPI.Controllers
 {
@@ -56,5 +57,20 @@ namespace ShoppingSystemWebAPI.Controllers
 
             return Ok(new UserModel(user));
         }
+
+        //[HttpGet]
+        ////[ApiExceptionHandler]
+        //public IHttpActionResult Test() {
+        //    throwException1();
+        //    return null;
+        //}
+
+        //private void throwException1() {
+        //    throwException2();
+        //}
+
+        //private void throwException2() {
+        //    throw new Exception("Something happened");
+        //}
     }
 }

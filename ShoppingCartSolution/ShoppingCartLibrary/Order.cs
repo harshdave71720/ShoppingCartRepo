@@ -47,6 +47,7 @@ namespace ShoppingCartLibrary
         [JsonProperty(Order = 4)]
         public double TotalPrice { get; set; }
 
+        [JsonProperty(Order = 5)]
         public virtual ICollection<OrderItem> OrderItems { get; set; }
         //[Required]
         //public virtual ICollection<Item> Items { get; set; }       
@@ -77,6 +78,7 @@ namespace ShoppingCartLibrary
                 OrderItems = new List<OrderItem>();
             }
             foreach (var cartItem in cart.CartItems) {
+                cartItem.Item.Quantity -= cartItem.Quantity;
                 OrderItems.Add(new OrderItem(this, cartItem));
             }
         }

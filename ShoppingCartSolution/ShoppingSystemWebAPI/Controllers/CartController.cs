@@ -26,8 +26,8 @@ namespace ShoppingSystemWebAPI.Controllers
         }
 
         [HttpGet]
-        public IHttpActionResult Get(UserCartModel userCart) {
-            Cart cart = Manager.GetCart(userCart.UserId, userCart.CartId);
+        public IHttpActionResult Get(Guid userId, Guid cartId) {
+            Cart cart = Manager.GetCart(userId, cartId);
 
             if (cart == null) {
                 return NotFound();
@@ -45,7 +45,7 @@ namespace ShoppingSystemWebAPI.Controllers
             return Ok(carts);
         }
 
-        [HttpGet]
+        [HttpPost]
         public IHttpActionResult ConfirmToOrder(UserCartModel cartModel) {
             Order order = Manager.ConfirmCartToOrder(cartModel.UserId, cartModel.CartId);
 
@@ -56,8 +56,8 @@ namespace ShoppingSystemWebAPI.Controllers
             return Ok(order);
         }
 
-        [HttpGet]
-        public IHttpActionResult AddItem(Guid userId, CartItem cartItem) {
+        [HttpPost]
+        public IHttpActionResult AddItem(Guid userId, CartItemModel cartItem) {
             CartItem result = Manager.AddItemToUserCart(userId, cartItem.CartId, cartItem.ItemId, cartItem.Quantity);
 
             if (result == null) {
@@ -66,8 +66,8 @@ namespace ShoppingSystemWebAPI.Controllers
             return Ok("Added " + result.Quantity);
         }
 
-        [HttpGet]
-        public IHttpActionResult RemoveItem(Guid userId, CartItem cartItem) {
+        [HttpDelete]
+        public IHttpActionResult RemoveItem(Guid userId, CartItemModel cartItem) {
             CartItem result = Manager.RemoveItemFromUserCart(userId, cartItem.CartId, cartItem.ItemId, cartItem.Quantity);
 
             if (result == null) {
@@ -77,7 +77,7 @@ namespace ShoppingSystemWebAPI.Controllers
             return Ok("Removed " + result.Quantity);
         }
 
-        [HttpGet]
+        [HttpPost]
         public IHttpActionResult Confirm(UserCartModel userCart) {
             Order order = Manager.ConfirmCart(userCart.UserId, userCart.CartId);
 
