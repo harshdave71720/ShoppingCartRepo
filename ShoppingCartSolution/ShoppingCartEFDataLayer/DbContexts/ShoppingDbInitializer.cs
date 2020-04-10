@@ -13,7 +13,7 @@ namespace ShoppingCartEFDataLayer.DbContexts
         protected override void Seed(ShoppingDbContext context)
         {
             //base.Seed(context);
-            context.Users.Add(new User { Name = "Yash dave", Email = "yashdave111@gmail.com", Address = "Revenue colony" });
+            //context.Users.Add(new User { Name = "Yash dave", Email = "yashdave111@gmail.com", Address = "Revenue colony" });
 
             context.Items.Add(new Item { Name = "Chair", Quantity = 3, Price = 100});
             context.Items.Add(new Item { Name = "Table", Quantity = 5, Price = 500});

@@ -9,15 +9,21 @@ using ShoppingCartEFDataLayer.Repositories;
 using ShoppingSystemWebAPI.Models;
 using ShoppingCartLibrary;
 using ShoppingSystemWebAPI.Filters;
+using ShoppingSystemWebAPI.Authentication;
+using KeyBasedAuthenticator.DataBaseLayer;
+using KeyBasedAuthenticator.Models;
 
 namespace ShoppingSystemWebAPI.Controllers
 {
+    [Authorize(Roles ="User")]
     public class UserController : ApiController
     {
         private UserManager Manager; 
+        private IAuthRepository AuthRepository;
             
         public UserController() {
             Manager = new UserManager(new ShoppingDataSource());
+            AuthRepository = new AuthRepository();
         }
 
         public UserController(UserManager manager) {
@@ -26,16 +32,20 @@ namespace ShoppingSystemWebAPI.Controllers
 
         [HttpGet]
         public IHttpActionResult Get(Guid id) {
+            var user1 = RequestContext.Principal.Identity.Name;
             User user = Manager.GetUser(id);
             if (user == null) {
                 return NotFound();
-            }
+              }
             return Ok(new UserModel(user));
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public IHttpActionResult Add(UserModel user) {
-            return Ok(Manager.AddUser(user.ToUser()));
+            var resultUser = Manager.AddUser(user.ToUser());
+            var AuthUser = AuthRepository.AddAppUser(new AppUser { Id = resultUser.Id, PrivateKey = Guid.NewGuid()});
+            return Ok(new AuthUserResultModel(AuthUser));
         }
 
         [HttpDelete]

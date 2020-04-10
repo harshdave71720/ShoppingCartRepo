@@ -37,5 +37,17 @@ namespace ShoppingCartSystem
             DataSource.SaveChanges();
             return true;
         }
+        public bool OrderItemDelivered(Guid userId, Guid orderId, Guid itemId) {
+            var order = DataSource.Orders.Find(new Order { Id = orderId});
+            if (order == null || !order.User.Id.Equals(userId)) {
+                return false;
+            }
+            var orderItem = order.OrderItems.FirstOrDefault(oi => oi.ItemId.Equals(itemId));
+            if (orderItem == null) {
+                return false;
+            }
+            orderItem.Status = ItemStatus.DELIVERED;
+            return true;
+        }
     }
 }

@@ -4,6 +4,9 @@ using System.Linq;
 using System.Web.Http;
 using Newtonsoft.Json.Converters;
 using ShoppingSystemWebAPI.Filters;
+using ShoppingSystemWebAPI.MessageHandlers;
+using ShoppingCartEFDataLayer.Repositories;
+using ShoppingSystemWebAPI.Authentication;
 
 namespace ShoppingSystemWebAPI
 {
@@ -33,6 +36,8 @@ namespace ShoppingSystemWebAPI
             config.Filters.Add(new ValidateModelStateAttribute());
 
             config.Formatters.JsonFormatter.SerializerSettings.Converters.Add(new StringEnumConverter());
+
+            config.MessageHandlers.Add(new AuthMessageHandler(new AuthRepository()));
         }
     }
 }

@@ -11,6 +11,7 @@ using System.Web.Http;
 
 namespace ShoppingSystemWebAPI.Controllers
 {
+    [Authorize(Roles = "User")]
     public class ItemController : ApiController
     {
         private ItemManager Manager;

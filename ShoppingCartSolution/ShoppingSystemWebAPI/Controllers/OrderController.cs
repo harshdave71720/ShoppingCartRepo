@@ -1,4 +1,5 @@
 ﻿using ShoppingCartEFDataLayer.Repositories;
+using ShoppingCartLibrary;
 using ShoppingCartSystem;
 using ShoppingSystemWebAPI.Models;
 using System;
@@ -44,6 +45,17 @@ namespace ShoppingSystemWebAPI.Controllers
         [HttpPut]
         public IHttpActionResult Modify(UserOrderModel model) {
             return Ok(Manager.ModifyOrder(model.UserId, model.OrderId));
+        }
+
+        [HttpPost]
+        public IHttpActionResult ConfirmOrderItemDelivery(Guid userId, OrderItem orderItem) {
+            bool flag = Manager.OrderItemDelivered(userId, orderItem.OrderId, orderItem.ItemId);
+
+            if (!flag) {
+                return NotFound();
+            }
+
+            return Ok();                
         }
     }
 }

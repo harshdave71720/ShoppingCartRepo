@@ -17,22 +17,40 @@ namespace ShoppingCartLibrary
         private OrderStatus _status;
 
         [JsonProperty(Order = 2)]
-        public OrderStatus Status { get; set; }
-        //public OrderStatus Status { get {
-        //        if (_status == OrderStatus.Modifying) {
-        //            return _status;
-        //        }
-        //        int count = 0;
-        //        foreach (var item in OrderItems) {
-        //            if (item.Status == ItemStatus.) { 
-
-        //            }
-        //        }
-        //    }
-        //    set {
-        //        _status = value;
-        //    }
-        //}
+        //public OrderStatus Status { get; set; }
+        public OrderStatus Status
+        {
+            get
+            {
+                if (_status == OrderStatus.Modifying)
+                {
+                    return _status;
+                }
+                int count = 0;
+                foreach (var orderItem in OrderItems)
+                {
+                    if (orderItem.Status == ItemStatus.DELIVERED)
+                    {
+                        count++;
+                    }
+                }
+                if (count == OrderItems.Count)
+                {
+                    return OrderStatus.Delivered;
+                }
+                else if (count > 0)
+                {
+                    return OrderStatus.Dispatched;
+                }
+                else {
+                    return OrderStatus.Active;               
+                }
+            }
+            set
+            {
+                _status = value;
+            }
+        }
 
         [JsonProperty(Order = 3)]
         public string ShippingAddress { get; set; }
