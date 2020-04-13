@@ -8,6 +8,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using ShoppingCartDataLayer.Factories;
 
 namespace ShoppingSystemWebAPI.Controllers
 {
@@ -18,7 +19,7 @@ namespace ShoppingSystemWebAPI.Controllers
 
         public ItemController()
         {
-            Manager = new ItemManager(new ShoppingDataSource());
+            Manager = new ItemManager(DataStoreFactory.CreateItemDataStore());
         }
 
         public ItemController(ItemManager manager)
@@ -63,20 +64,20 @@ namespace ShoppingSystemWebAPI.Controllers
         }
 
         //there is some minor return value problem
-        [HttpPost]
-        public IHttpActionResult AddToCart(UserItemModel model) {
-            if (model.Quantity <= 0) {
-                return BadRequest("Cannot add 0 or negative quantity");
-            }
-            var cartItem = Manager.AddItemToCart(model.UserId, model.ItemId, model.Quantity);
+        //[HttpPost]
+        //public IHttpActionResult AddToCart(UserItemModel model) {
+        //    if (model.Quantity <= 0) {
+        //        return BadRequest("Cannot add 0 or negative quantity");
+        //    }
+        //    var cartItem = Manager.AddItemToCart(model.UserId, model.ItemId, model.Quantity);
 
-            if (cartItem == null)
-            {
-                return BadRequest("Item Not Found");
-            }
-            return Ok("Added " + cartItem.Quantity);
+        //    if (cartItem == null)
+        //    {
+        //        return BadRequest("Item Not Found");
+        //    }
+        //    return Ok("Added " + cartItem.Quantity);
             
-        }
+        //}
 
         [HttpGet]
         public IHttpActionResult GetAll() {

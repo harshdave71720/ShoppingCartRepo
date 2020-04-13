@@ -8,11 +8,11 @@ using ShoppingCartEFDataLayer.DbContexts;
 
 namespace ShoppingCartEFDataLayer.Repositories
 {
-    public class ItemRepository : EFRepositoryBase<Item>,IItemRepository
+    public class ItemRepository : IItemRepository
     {
-        public ItemRepository(ShoppingDbContext context) : base(context){
-            
-        }
+        private ShoppingDbContext Context;
+        public ItemRepository(ShoppingDbContext context) { this.Context = context; }
+        public ItemRepository() : this(ShoppingDbContextFactory.GetInstance()){ }
 
         public Item Add(Item obj)
         {
@@ -44,10 +44,13 @@ namespace ShoppingCartEFDataLayer.Repositories
 
         public Item Update(Item obj)
         {
-            if (Context.Items.Find(obj) == null) {
+            var item = Context.Items.Find(obj);
+            if (item == null) {
                 return null;
             }
-            Context.Entry(obj).State = System.Data.Entity.EntityState.Modified;
+            if (!string.IsNullOrWhiteSpace(obj.Name)) {
+                item.Name = obj.Name;
+            }
             Context.SaveChanges();
             return Context.Items.Find(obj.Id);
         }
@@ -55,6 +58,36 @@ namespace ShoppingCartEFDataLayer.Repositories
         public IEnumerable<Item> GetAll()
         {
             return Context.Items;
+        }
+
+        public int IncreaseQuantity(Guid itemId, int quantity)
+        {
+            var item = Context.Items.Find(itemId);
+            if (item == null) {
+                return -1;
+            }
+            item.Quantity += quantity;
+            Context.SaveChanges();
+            return item.Quantity;
+        }
+
+        public int SaveChanges()
+        {
+            throw new NotImplementedException();
+        }
+
+        public int DecreaseQuantity(Guid itemId, int quantity)
+        {
+            var item = Context.Items.Find(itemId);
+            if (item == null) {
+                return -1;
+            }
+            if (quantity > item.Quantity) {
+                throw new InvalidOperationException("Cannot decrease item quantity as it is not sufficiently present");
+            }
+            item.Quantity -= quantity;
+            Context.SaveChanges();
+            return item.Quantity;
         }
 
         //public int SaveChanges()

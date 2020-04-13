@@ -6,6 +6,9 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using ShoppingCartDataLayer.Factories;
+using ShoppingCartEFDataLayer.Factories;
+
 
 namespace ShoppingSystemWebAPI
 {
@@ -18,6 +21,12 @@ namespace ShoppingSystemWebAPI
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            DataStoreFactory.Initialize(userRepositoryFactory : new UserRepositoryFactory(),
+                cartRepositoryFactory : new CartRepositoryFactory(),
+                itemRepositoryFactory : new ItemRepositoryFactory(),
+                cartItemRepositoryFactory : new CartItemRepositoryFactory(),
+                orderItemRepositoryFactory:new OrderItemRepositoryFactory(),
+                orderRepositoryFactory : new OrderRepositoryFactory());
         }
     }
 }

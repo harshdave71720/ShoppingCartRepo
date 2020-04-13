@@ -32,22 +32,22 @@ namespace ShoppingCartLibrary
         [JsonIgnore]
         public virtual ICollection<OrderItem> OrderItems { get; set; }
 
-        public int Add(int quantity) {
-            Quantity += quantity;
-            return Quantity;
-        }
+        //public int Add(int quantity) {
+        //    Quantity += quantity;
+        //    return Quantity;
+        //}
 
-        public int Remove(int quantity) {
-            //if (Quantity < quantity) {
-            //    throw new InvalidOperationException("Items in available : " + Quantity + "Items to be removed : " + quantity);
-            //}
-            if (Quantity < quantity) {
-                var temp = Quantity;
-                Quantity = 0;
-                return temp;
-            }
-            Quantity -= quantity;
-            return Quantity;
-        }
+        //public int Remove(int quantity) {
+        //    //if (Quantity < quantity) {
+        //    //    throw new InvalidOperationException("Items in available : " + Quantity + "Items to be removed : " + quantity);
+        //    //}
+        //    if (Quantity < quantity) {
+        //        var temp = Quantity;
+        //        Quantity = 0;
+        //        return temp;
+        //    }
+        //    Quantity -= quantity;
+        //    return Quantity;
+        //}
     }
 }

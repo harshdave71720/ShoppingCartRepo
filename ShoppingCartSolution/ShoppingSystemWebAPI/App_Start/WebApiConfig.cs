@@ -37,7 +37,8 @@ namespace ShoppingSystemWebAPI
 
             config.Formatters.JsonFormatter.SerializerSettings.Converters.Add(new StringEnumConverter());
 
-            config.MessageHandlers.Add(new AuthMessageHandler(new AuthRepository()));
+            //config.MessageHandlers.Add(new AuthMessageHandler(new AuthRepository()));
+            config.MessageHandlers.Add(new DefaultMessageHandler());
         }
     }
 }

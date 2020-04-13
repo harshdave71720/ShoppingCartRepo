@@ -8,6 +8,6 @@ namespace ShoppingCartLibrary
 {
     public enum CartStatus
     {
-        Active, Completed
+        Active, Recieved, Modifying,Completed
     }
 }

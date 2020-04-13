@@ -35,21 +35,21 @@ namespace ShoppingCartLibrary
 
         //}     
 
-        public Cart GetActiveCart() {
-            if (Carts == null)
-            {
-                Carts = new List<Cart> { new Cart(this, CartStatus.Active) };
-                return Carts.First();
-            }
+        //public Cart GetActiveCart() {
+        //    if (Carts == null)
+        //    {
+        //        Carts = new List<Cart> { new Cart(this, CartStatus.Active) };
+        //        return Carts.First();
+        //    }
 
-            Cart cart = Carts.SingleOrDefault(c => c.Status == CartStatus.Active && c.Order == null);
-            if (cart != null) {
-                return cart;
-            }
-            cart = new Cart(this, CartStatus.Active);
-            Carts.Add(cart);
-            return cart;
-        }
+        //    Cart cart = Carts.SingleOrDefault(c => c.Status == CartStatus.Active && c.Order == null);
+        //    if (cart != null) {
+        //        return cart;
+        //    }
+        //    cart = new Cart(this, CartStatus.Active);
+        //    Carts.Add(cart);
+        //    return cart;
+        //}
 
         
 

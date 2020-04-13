@@ -51,10 +51,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataStores\CartDataStore.cs" />
+    <Compile Include="DataStores\ItemDataStore.cs" />
+    <Compile Include="DataStores\OrderDataStore.cs" />
+    <Compile Include="DataStores\UserDataStore.cs" />
+    <Compile Include="Factories\DataStoreFactory.cs" />
+    <Compile Include="Factories\ICartItemRepositoryFactory.cs" />
+    <Compile Include="Factories\ICartRepositoryFactory.cs" />
+    <Compile Include="Factories\IItemRepositoryFactory.cs" />
+    <Compile Include="Factories\IOrderItemRepositoryFactory.cs" />
+    <Compile Include="Factories\IOrderRepositoryFactory.cs" />
+    <Compile Include="Factories\IRepositoryFactory.cs" />
+    <Compile Include="Factories\IUserRepositoryFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\ICartItemRepository.cs" />
     <Compile Include="Repositories\ICartRepository.cs" />
     <Compile Include="Repositories\IDataSource.cs" />
     <Compile Include="Repositories\IItemRepository.cs" />
+    <Compile Include="Repositories\IOrderItemRepository.cs" />
     <Compile Include="Repositories\IOrderRepository.cs" />
     <Compile Include="Repositories\IRepository.cs" />
     <Compile Include="Repositories\IUserRepository.cs" />

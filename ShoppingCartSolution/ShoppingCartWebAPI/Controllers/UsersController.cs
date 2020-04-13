@@ -12,7 +12,7 @@ namespace ShoppingCartWebAPI.Controllers
     public class UsersController : ApiController
     {
         //private IRepository<User> DataSource = new UserRepository(new ShoppingDbContext("ShoppingCartDatabase"));
-        private IDataSource DataSource;
+        //private UserDataSource DataSource;
 
         public UsersController() {
             DataSource = new ShoppingDataSource();

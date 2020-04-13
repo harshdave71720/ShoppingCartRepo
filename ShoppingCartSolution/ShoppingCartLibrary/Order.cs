@@ -26,6 +26,10 @@ namespace ShoppingCartLibrary
                 {
                     return _status;
                 }
+                //do something about it
+                if (OrderItems == null || OrderItems.Count == 0) {
+                    return OrderStatus.Active;
+                }
                 int count = 0;
                 foreach (var orderItem in OrderItems)
                 {
@@ -42,8 +46,9 @@ namespace ShoppingCartLibrary
                 {
                     return OrderStatus.Dispatched;
                 }
-                else {
-                    return OrderStatus.Active;               
+                else
+                {
+                    return OrderStatus.Active;
                 }
             }
             set
@@ -56,7 +61,11 @@ namespace ShoppingCartLibrary
         public string ShippingAddress { get; set; }
 
         [JsonIgnore]
+        [ForeignKey("UserId")]
         public virtual User User { get; set; }
+
+        [JsonIgnore]
+        public Guid UserId { get; set; }
 
         [Required]
         [JsonIgnore]
@@ -76,50 +85,50 @@ namespace ShoppingCartLibrary
             ShippingAddress = User.Address;
             Cart = cart;
             this.OrderItems = new List<OrderItem>();
-            AddItemsFromCart(cart);
+            //AddItemsFromCart(cart);
             TotalPrice = cart.TotalPrice;
             
         }
 
-        private void ReleaseItems() {
+        //private void ReleaseItems() {
 
-            while (OrderItems.Count > 0) {
-                var orderItem = OrderItems.FirstOrDefault();
-                orderItem.Item.Quantity += orderItem.Quantity;
-                OrderItems.Remove(orderItem);
-            }
-            OrderItems = null;
-        }
+        //    while (OrderItems.Count > 0) {
+        //        var orderItem = OrderItems.FirstOrDefault();
+        //        orderItem.Item.Quantity += orderItem.Quantity;
+        //        OrderItems.Remove(orderItem);
+        //    }
+        //    OrderItems = null;
+        //}
 
-        private void AddItemsFromCart(Cart cart) {
-            if (OrderItems == null) {
-                OrderItems = new List<OrderItem>();
-            }
-            foreach (var cartItem in cart.CartItems) {
-                cartItem.Item.Quantity -= cartItem.Quantity;
-                OrderItems.Add(new OrderItem(this, cartItem));
-            }
-        }
+        //private void AddItemsFromCart(Cart cart) {
+        //    if (OrderItems == null) {
+        //        OrderItems = new List<OrderItem>();
+        //    }
+        //    foreach (var cartItem in cart.CartItems) {
+        //        cartItem.Item.Quantity -= cartItem.Quantity;
+        //        OrderItems.Add(new OrderItem(this, cartItem));
+        //    }
+        //}
 
-        public void Update(Cart cart) {
-            ReleaseItems();
-            AddItemsFromCart(cart);
-        }
+        //public void Update(Cart cart) {
+        //    ReleaseItems();
+        //    AddItemsFromCart(cart);
+        //}
 
-        public void UpdateStatus(OrderStatus status) {
-            Status = status;
-        }
+        //public void UpdateStatus(OrderStatus status) {
+        //    Status = status;
+        //}
 
-        public void Modify() {
-            if (Status == OrderStatus.Dispatched || Status == OrderStatus.Delivered) {
-                throw new InvalidOperationException("Delivered or dispatched order cannot be modified");
-            }
-            if (Status == OrderStatus.Modifying) {
-                throw new InvalidOperationException("Order already under modification ");
-            }
-            Status = OrderStatus.Modifying;
-            Cart.Status = CartStatus.Active;
-        }
+        //public void Modify() {
+        //    if (Status == OrderStatus.Dispatched || Status == OrderStatus.Delivered) {
+        //        throw new InvalidOperationException("Delivered or dispatched order cannot be modified");
+        //    }
+        //    if (Status == OrderStatus.Modifying) {
+        //        throw new InvalidOperationException("Order already under modification ");
+        //    }
+        //    Status = OrderStatus.Modifying;
+        //    Cart.Status = CartStatus.Active;
+        //}
         public Order() { }
 
     }

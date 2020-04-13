@@ -14,5 +14,8 @@ namespace ShoppingCartDataLayer.Repositories
         IEnumerable<CartItem> GetCartItems(Guid userId, Guid cartId);
 
         Cart GetUserCart(Guid userId, Guid cartId);
+
+        double UpdatePrice(Guid cartId, double price);
+        void UpdateStatus(Guid cartId, CartStatus status);
     }
 }

@@ -8,9 +8,15 @@ using ShoppingCartEFDataLayer.DbContexts;
 
 namespace ShoppingCartEFDataLayer.Repositories
 {
-    public class OrderRepository : EFRepositoryBase<Order>, IOrderRepository
+    public class OrderRepository :  IOrderRepository
     {
-        public OrderRepository(ShoppingDbContext context) : base(context) { }
+        private ShoppingDbContext Context;
+        public OrderRepository(ShoppingDbContext context){
+            this.Context = context;
+        }
+        public OrderRepository() : this(ShoppingDbContextFactory.GetInstance()) { }
+        
+
         public Order Add(Order obj)
         {
             var order = Context.Orders.Add(obj);
@@ -65,6 +71,27 @@ namespace ShoppingCartEFDataLayer.Repositories
         public Order Update(Order obj)
         {
             throw new NotImplementedException();
+        }
+
+        public int SaveChanges()
+        {
+            throw new NotImplementedException();
+        }
+
+        public double UpdatePrice(Guid orderId, double price)
+        {
+            Order order = Context.Orders.Find(orderId);
+            order.TotalPrice = price;
+            Context.SaveChanges();
+            return order.TotalPrice;
+        }
+
+        public void UpdateStatus(Guid orderId, OrderStatus status)
+        {
+            Order order = Context.Orders.Find(orderId);
+            order.Status = status;
+            Context.SaveChanges();
+
         }
     }
 }

@@ -11,8 +11,12 @@ namespace ShoppingCartDataLayer.Repositories
     {
         IEnumerable<Order> GetUserOrders(Guid userId);
 
-        IEnumerable<OrderItem> GetOrderItems(Guid userId, Guid orderId);
+        //IEnumerable<OrderItem> GetOrderItems(Guid userId, Guid orderId);
 
         Order GetUserOrder(Guid userId, Guid orderId);
+
+        double UpdatePrice(Guid orderId, double price);
+
+        void UpdateStatus(Guid orderId, OrderStatus status);
     }
 }

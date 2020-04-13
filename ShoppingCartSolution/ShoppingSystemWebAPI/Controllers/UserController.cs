@@ -12,6 +12,8 @@ using ShoppingSystemWebAPI.Filters;
 using ShoppingSystemWebAPI.Authentication;
 using KeyBasedAuthenticator.DataBaseLayer;
 using KeyBasedAuthenticator.Models;
+using ShoppingCartDataLayer.DataStores;
+using ShoppingCartDataLayer.Factories;
 
 namespace ShoppingSystemWebAPI.Controllers
 {
@@ -20,15 +22,16 @@ namespace ShoppingSystemWebAPI.Controllers
     {
         private UserManager Manager; 
         private IAuthRepository AuthRepository;
-            
-        public UserController() {
-            Manager = new UserManager(new ShoppingDataSource());
-            AuthRepository = new AuthRepository();
+
+        public UserController() : this(new UserManager(DataStoreFactory.CreateUserDataStore()), new AuthRepository())
+        { }
+
+        public UserController(UserManager manager, IAuthRepository repository){
+            this.Manager = manager;
+            this.AuthRepository = repository;
         }
 
-        public UserController(UserManager manager) {
-            Manager = manager;
-        }
+        public UserController(UserManager manager) : this(manager, new AuthRepository()){}
 
         [HttpGet]
         public IHttpActionResult Get(Guid id) {
@@ -48,17 +51,17 @@ namespace ShoppingSystemWebAPI.Controllers
             return Ok(new AuthUserResultModel(AuthUser));
         }
 
-        [HttpDelete]
-        public IHttpActionResult Delete(Guid id) {
-            User user = Manager.RemoveUser(id);
-            if (user == null) {
-                return NotFound();
-            }
-            return Ok(user);
-        }
+        //[HttpDelete]
+        //public IHttpActionResult Delete(Guid id) {
+        //    User user = Manager.RemoveUser(id);
+        //    if (user == null) {
+        //        return NotFound();
+        //    }
+        //    return Ok(user);
+        //}
 
         [HttpPut]
-        public IHttpActionResult Update(UserModel userModel) {
+        public IHttpActionResult Update(UpdateUserModel userModel) {
             User user = Manager.UpdateUser(userModel.ToUser());
 
             if (user == null) {

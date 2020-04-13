@@ -1,4 +1,5 @@
 ﻿using ShoppingCartEFDataLayer.Repositories;
+using ShoppingCartDataLayer.Factories;
 using ShoppingCartLibrary;
 using ShoppingCartSystem;
 using ShoppingSystemWebAPI.Models;
@@ -17,7 +18,7 @@ namespace ShoppingSystemWebAPI.Controllers
 
         public OrderController()
         {
-            Manager = new OrderManager(new ShoppingDataSource());
+            Manager = new OrderManager(DataStoreFactory.CreateOrderDataStore());
         }
 
         public OrderController(OrderManager manager)
@@ -47,15 +48,15 @@ namespace ShoppingSystemWebAPI.Controllers
             return Ok(Manager.ModifyOrder(model.UserId, model.OrderId));
         }
 
-        [HttpPost]
-        public IHttpActionResult ConfirmOrderItemDelivery(Guid userId, OrderItem orderItem) {
-            bool flag = Manager.OrderItemDelivered(userId, orderItem.OrderId, orderItem.ItemId);
+        //[HttpPost]
+        //public IHttpActionResult ConfirmOrderItemDelivery(Guid userId, OrderItem orderItem) {
+        //    bool flag = Manager.OrderItemDelivered(userId, orderItem.OrderId, orderItem.ItemId);
 
-            if (!flag) {
-                return NotFound();
-            }
+        //    if (!flag) {
+        //        return NotFound();
+        //    }
 
-            return Ok();                
-        }
+        //    return Ok();                
+        //}
     }
 }

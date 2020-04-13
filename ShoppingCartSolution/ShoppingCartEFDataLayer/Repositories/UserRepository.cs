@@ -15,6 +15,9 @@ namespace ShoppingCartEFDataLayer.Repositories
             
         }
 
+        public UserRepository() : this(ShoppingDbContextFactory.GetInstance()) { 
+        }
+
         public User Add(User obj)
         {
             var user = Context.Users.Add(obj);
@@ -45,7 +48,21 @@ namespace ShoppingCartEFDataLayer.Repositories
 
         public User Update(User obj)
         {
-            throw new NotImplementedException();
+            var user = Context.Users.Find(obj.Id);
+            if (user == null)
+            {
+                return user;
+            }
+            if (obj.Name != null)
+                user.Name = obj.Name;
+            if (obj.Email != null)
+                user.Email = obj.Email;
+            if (obj.Address != null)
+                user.Address = obj.Address;
+
+            //Context.Entry(obj).State = System.Data.Entity.EntityState.Modified;
+            Context.SaveChanges();
+            return Context.Users.Find(obj.Id);
         }
 
         //public int SaveChanges() {

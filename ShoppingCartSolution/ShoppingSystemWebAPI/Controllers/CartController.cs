@@ -8,6 +8,8 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using ShoppingCartEFDataLayer.Factories;
+using ShoppingCartDataLayer.Factories;
 
 namespace ShoppingSystemWebAPI.Controllers
 {
@@ -17,7 +19,7 @@ namespace ShoppingSystemWebAPI.Controllers
 
         public CartController()
         {
-            Manager = new CartManager(new ShoppingDataSource());
+            Manager = new CartManager(DataStoreFactory.CreateCartDataStore());
         }
 
         public CartController(CartManager manager)
@@ -47,7 +49,7 @@ namespace ShoppingSystemWebAPI.Controllers
 
         [HttpPost]
         public IHttpActionResult ConfirmToOrder(UserCartModel cartModel) {
-            Order order = Manager.ConfirmCartToOrder(cartModel.UserId, cartModel.CartId);
+            Order order = Manager.ConfirmCart(cartModel.UserId, cartModel.CartId);
 
             if (order == null)
             {
@@ -58,7 +60,7 @@ namespace ShoppingSystemWebAPI.Controllers
 
         [HttpPost]
         public IHttpActionResult AddItem(Guid userId, CartItemModel cartItem) {
-            CartItem result = Manager.AddItemToUserCart(userId, cartItem.CartId, cartItem.ItemId, cartItem.Quantity);
+            CartItem result = Manager.AddItemToCart(userId, cartItem.CartId, cartItem.ItemId, cartItem.Quantity);
 
             if (result == null) {
                 return NotFound();
@@ -68,7 +70,7 @@ namespace ShoppingSystemWebAPI.Controllers
 
         [HttpDelete]
         public IHttpActionResult RemoveItem(Guid userId, CartItemModel cartItem) {
-            CartItem result = Manager.RemoveItemFromUserCart(userId, cartItem.CartId, cartItem.ItemId, cartItem.Quantity);
+            CartItem result = Manager.RemoveItemFromCart(userId, cartItem.CartId, cartItem.ItemId, cartItem.Quantity);
 
             if (result == null) {
                 return NotFound();
@@ -86,6 +88,11 @@ namespace ShoppingSystemWebAPI.Controllers
             }
 
             return Ok(order);
+        }
+
+        [HttpPost]
+        public IHttpActionResult AddToActiveCart(UserItemModel userItem) {
+            return Ok(Manager.AddItemToActiveCart(userItem.UserId, userItem.ItemId, userItem.Quantity));
         }
     }
 }
