@@ -98,20 +98,20 @@ namespace ShoppingCartSystem
             }
 
             //decrease item quantity code will come here
-            
+            CartStore.UpdateCartStatus(cart.Id, CartStatus.Recieved);
+
+            ItemManager itemManager = new ItemManager(DataStoreFactory.CreateItemDataStore());
+
+            foreach (var cartItem in cart.CartItems)
+            {
+                itemManager.DecreaseItemQuantity(cartItem.ItemId, cartItem.Quantity);
+            }
+
 
             var orderStore = DataStoreFactory.CreateOrderDataStore();
             var orderManager =new OrderManager(DataStoreFactory.CreateOrderDataStore());
             if (orderStore.GetOrder(userId, cartId) != null) {
                 return orderManager.ConfirmOrder(cart);
-            }
-            CartStore.UpdateCartStatus(cart.Id, CartStatus.Recieved);
-
-            ItemManager itemManager = new ItemManager(DataStoreFactory.CreateItemDataStore());
-            
-            foreach (var cartItem in cart.CartItems)
-            {
-                itemManager.DecreaseItemQuantity(cartItem.ItemId, cartItem.Quantity);
             }
 
             return orderManager.AddOrder(cart);
